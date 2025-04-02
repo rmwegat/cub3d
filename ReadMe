@@ -1,0 +1,29 @@
+ToDo
+http://users.atw.hu/wolf3d/
+
+Goals;
+
+
+Parsing Part:
+	- Is Valid Map:
+		- Check if the map is surrounded by walls (If adjacent to empty, must be a 1)
+		- Check if the map has only valid characters (0, 1, N, S, E, W)
+		- Check if the map has exactly one player
+		- {NO, SO, EA, WE} ./path_to_texture
+		- {F, C} R,G,B 0-255
+
+	- Store Map in sutable struct / array
+	- Game init (load assests, inits player pos and facing)
+	- Input handling (move, rotate, exit)
+
+
+Game Part:
+
+	Raycasting:
+		- Implement DDA (https://lodev.org/cgtutor/raycasting.html)
+		- Wall distances and heights
+		- Wall testures
+		- Raycasting based on rotation
+		- Raycasting based on movement
+		- Floor and ceiling rendering
+		
