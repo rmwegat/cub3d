@@ -4,7 +4,7 @@ http://users.atw.hu/wolf3d/
 Goals;
 
 
-Parsing Part:
+Parsing Part Person 1:
 	- Is Valid Map:
 		- Check if the map is surrounded by walls (If adjacent to empty, must be a 1)
 		- Check if the map has only valid characters (0, 1, N, S, E, W)
@@ -17,7 +17,7 @@ Parsing Part:
 	- Input handling (move, rotate, exit)
 
 
-Game Part:
+Game Part Person 2:
 
 	Raycasting:
 		- Implement DDA (https://lodev.org/cgtutor/raycasting.html)
@@ -26,4 +26,3 @@ Game Part:
 		- Raycasting based on rotation
 		- Raycasting based on movement
 		- Floor and ceiling rendering
-		
