@@ -4,7 +4,7 @@ http://users.atw.hu/wolf3d/
 Goals;
 
 
-Parsing Part Person 1:
+Parsing Part Rasmus:
 	- Is Valid Map:
 		- Check if the map is surrounded by walls (If adjacent to empty, must be a 1)
 		- Check if the map has only valid characters (0, 1, N, S, E, W)
@@ -17,7 +17,7 @@ Parsing Part Person 1:
 	- Input handling (move, rotate, exit)
 
 
-Game Part Person 2:
+Game Part Emil:
 
 	Raycasting:
 		- Implement DDA (https://lodev.org/cgtutor/raycasting.html)
