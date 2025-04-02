@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:14:07 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/02 18:21:38 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:49:25 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	main(int argc, char	**argv)
 {
+
 	(void)argc;
 	(void)argv;
 	return (0);

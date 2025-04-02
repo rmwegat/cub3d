@@ -6,7 +6,8 @@ CFLAGS = -Wall -Wextra -Werror -Ofast -o3
 
 SRCS =	src/main.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJS_DIR = objs
+OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
 MLXINCLUDE = include/MLX42/build/libmlx42.a -Iinclude -lglfw
@@ -18,7 +19,7 @@ $(NAME): $(OBJS) MLX42
 	@$(CC) $(OBJS) $(MLXFLAGS) $(CFLAGS) $(MLXINCLUDE) -o $(NAME)
 	@echo "\033[1;32m ✅ [$(NAME) created]\033[0m"
 
-%.o: %.c
+$(OBJS_DIR)/%.o: src/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 MLX42:
@@ -27,7 +28,7 @@ MLX42:
 		cd MLX42 && cmake -B build && cd build && make && cd ../..; \
 		echo "\033[1;32m ✅ [MLX42 installed]\033[0m"; \
 	else \
-		echo "\033[1;32m ✅ [MLX42 alreay found]\033[0m"; \
+		echo "\033[1;32m ✅ [MLX42 already found]\033[0m"; \
 	fi
 
 MLXR:
