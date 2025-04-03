@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/03 12:51:17 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:28:21 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 # include <fcntl.h>
 # include <math.h>
 # include <errno.h>
+
+# include "libft/libft/libft.h"
+# include "libft/ft_printf/ft_printf.h"
+# include "libft/libft/get_next_line.h"
+
 # include "MLX42/include/MLX42/MLX42.h"
 
 #define WIDTH 1280
@@ -34,7 +39,9 @@ typedef struct s_game
 }	t_game;
 
 // Parsing
-int check_input(int argc, char *argv);
+int check_input(char *argv, t_game *game);
 
+// initialisation
+char **map_to_array(char *argv);
 
 #endif

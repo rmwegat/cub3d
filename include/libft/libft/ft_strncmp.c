@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 18:14:07 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/03 16:29:15 by rwegat           ###   ########.fr       */
+/*   Created: 2023/10/09 11:47:32 by rwegat            #+#    #+#             */
+/*   Updated: 2023/10/18 13:44:21 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "libft.h"
 
-
-int	main(int argc, char	**argv)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	t_game	game;
-	
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	if (check_input(argv[1], &game)) //checks input and config, creates map
-		return (EXIT_FAILURE);
-	// init_game(&game);
-	// if (parse(&game, argv))
-	// 	return (EXIT_FAILURE);
-	// init_mlx(&game);
-	
-	// mlx_loop_hook(game.mlx, &game.image, &game.image);
-	// mlx_loop(game.mlx);
+	size_t			i;
+	unsigned char	u1;
+	unsigned char	u2;
 
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		u1 = (unsigned char)s1[i];
+		u2 = (unsigned char)s2[i];
+		if (u1 != u2)
+			return (u1 - u2);
+		i++;
+	}
 	return (0);
 }

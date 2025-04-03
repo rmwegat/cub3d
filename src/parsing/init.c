@@ -6,34 +6,49 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:59:17 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/03 12:45:42 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:28:40 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int check_config(char *argv)
+int is_valid_color(char *argv)
 {
-	
+	(void)argv;
+	return (0);
 }
-int check_input(int argc, char *argv)
+int is_valid_texture(char *argv)
 {
-	if (!argv || strlen(argv) < 5 || strcmp(argv + strlen(argv) - 4, ".cub") != 0)
-	{
-		fprintf(stderr, "Error: Invalid file extension. Expected '.cub'.\n");
-		return (1);
-	}
+	(void)argv;
+	return (0);
+}
+
+int is_valid_map(char **map)
+{
+	(void)map;
+	return (0);
+}
+int check_config(char *argv, t_game *game)
+{
+	game->map = map_to_array(argv);
+	if (is_valid_map(game->map))
+		return (ft_printf("Error: Invalid map configuration.\n"));
+	if (is_valid_texture(argv))
+		return (ft_printf("Error: Invalid texture configuration.\n"));
+	if (is_valid_color(argv))
+		return (ft_printf("Error: Invalid color configuration.\n"));
+	return (0);
+}
+
+int check_input(char *argv, t_game *game)
+{
+	if (!argv || ft_strlen(argv) < 5 || ft_strncmp(argv + ft_strlen(argv) - 4, ".cub", 4) != 0)
+		return (ft_printf("Error: Invalid file extension. Expected '.cub'.\n"));
 	int fd = open(argv, O_RDONLY);
 	if (fd < 0)
-	{
-		fprintf(stderr, "Error: File does not exist.\n");
-		return (1);
-	}
+		return (ft_printf("Error: File does not exist.\n"));
 	close(fd);
-	if (check_config(argv) != 0)
-	{
-		fprintf(stderr, "Error: Invalid configuration in the .cub file.\n");
-		return (1);
-	}
+	if (check_config(argv, game))
+		return (ft_printf("Error: Invalid configuration in the .cub file.\n"));
 	return (0);
 }
