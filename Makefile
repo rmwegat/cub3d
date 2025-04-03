@@ -1,10 +1,14 @@
-NAME = cub3d
+NAME = cub3D
 
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -Ofast -o3
 
 SRCS =	src/main.c \
+		\
+		src/parsing/init.c \
+
+
 
 OBJS_DIR = objs
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)

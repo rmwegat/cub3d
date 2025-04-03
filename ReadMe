@@ -1,7 +1,7 @@
 ToDo
-http://users.atw.hu/wolf3d/
 
-Goals;
+Play Wolfenstein at:
+http://users.atw.hu/wolf3d/
 
 
 Parsing Part Rasmus:
@@ -22,7 +22,10 @@ Game Part Emil:
 	Raycasting:
 		- Implement DDA (https://lodev.org/cgtutor/raycasting.html)
 		- Wall distances and heights
-		- Wall testures
+		- Wall textures
 		- Raycasting based on rotation
 		- Raycasting based on movement
 		- Floor and ceiling rendering
+
+Misc:
+	- Textures
