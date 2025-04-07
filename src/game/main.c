@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:12:46 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/07 16:13:24 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:34:36 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main()
 {
-	t_game *game;
-	init_game(game);
+	t_game game;
+	init_game(&game);
+	mlx_loop(game.mlx);
 	return (0);
 }

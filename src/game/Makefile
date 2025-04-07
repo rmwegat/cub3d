@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -Ofast -o3
 
 SRCS =	main.c game.c
 
-OBJS_DIR = objs
+OBJS_DIR = ../../objs
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
@@ -39,7 +39,7 @@ libft:
 	@$(MAKE) -C $(LIBFT_DIR)
 
 MLXR:
-	@rm -rf include/MLX42
+	@rm -rf ../../include/MLX42
 	@echo "\033[0;31m 🗑️  [MLX42 removed]\033[0m"
 
 clean:
