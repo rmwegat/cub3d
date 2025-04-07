@@ -13,7 +13,7 @@ MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
 MLXINCLUDE = ../../include/MLX42/build/libmlx42.a -Iinclude -lglfw
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
 
-LIBFT_DIR = include/libft
+LIBFT_DIR = ../../include/libft
 LIBFT = $(LIBFT_DIR)/lib.a
 
 all: MLX42 libft $(NAME)
