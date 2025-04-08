@@ -1,4 +1,4 @@
-NAME = lib.a
+NAME = libft.a
 CPP_FLAGS = -Wall -Wextra -Werror
 CPP = c++
 
@@ -22,7 +22,9 @@ $(PRINTF):
 $(NAME): $(LIBFT) $(PRINTF)
 	@if [ -s $(LIBFT) ] && [ -s $(PRINTF) ]; then \
 		cp $(LIBFT) $(NAME); \
-		ar rcs $(NAME) $(PRINTF); \
+		cd $(PRINTF_DIR) && ar x libftprintf.a && cd - > /dev/null; \
+		ar rcs $(NAME) $(PRINTF_DIR)/*.o; \
+		rm -f $(PRINTF_DIR)/*.o; \
 		echo "\033[1;32m ✅ [lib.a created]\033[0m"; \
 	else \
 		echo "\033[1;31m ⚠️  [lib.a not created: one or more libraries are empty]\033[0m"; \

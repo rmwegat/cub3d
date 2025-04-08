@@ -4,27 +4,29 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -Ofast -o3
 
-SRCS =	src/main.c \
-		\
-		src/parsing/init.c \
+VPATH = src:src/parsing:src/game
+
+SRCS = map_to_array.c \
+	# main.c \
+	# init.c \
 
 OBJS_DIR = objs
-OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
+OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
 MLXINCLUDE = include/MLX42/build/libmlx42.a -Iinclude -lglfw
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
 
 LIBFT_DIR = include/libft
-LIBFT = $(LIBFT_DIR)/lib.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
 all: MLX42 libft $(NAME)
 
 $(NAME): $(OBJS) MLX42 libft
-	@$(CC) $(OBJS) $(LIBFT) $(MLXFLAGS) $(CFLAGS) $(MLXINCLUDE) -o $(NAME)
+	@$(CC) $(OBJS) $(MLXFLAGS) $(CFLAGS) $(MLXINCLUDE) $(LIBFT) -o $(NAME)
 	@echo "\033[1;32m ✅ [$(NAME) created]\033[0m"
 
-$(OBJS_DIR)/%.o: src/%.c
+$(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 

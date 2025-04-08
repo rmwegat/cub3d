@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/03 16:19:31 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/08 15:46:28 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char *allocate_and_fill_line(char *line, int cols)
 	j = 0;
 	while (line[j] && line[j] != '\n')
 	{
-		map_line[j] = (line[j] == ' ') ? 'X' : line[j];
+		map_line[j] = (line[j] == ' ' || line[j] == '\t') ? 'X' : line[j];
 		j++;
 	}
 	while (j < cols)
@@ -96,24 +96,24 @@ char **map_to_array(char *file)
 	return (map);
 }
 
-// int main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		ft_printf(stderr, "Usage: %s <map_file>\n", argv[0]);
-// 		return (1);
-// 	}
-// 	char **map = map_to_array(argv[1]);
-// 	if (!map)
-// 	{
-// 		ft_printf(stderr, "Error: Failed to parse the map file.\n");
-// 		return (1);
-// 	}
-// 	for (int i = 0; map[i]; i++)
-// 	{
-// 		ft_printf("%s\n", map[i]);
-// 		free(map[i]);
-// 	}
-// 	free(map);
-// 	return (0);
-// }
+int main(int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		ft_printf("Usage: %s <map_file>\n", argv[0]);
+		return (1);
+	}
+	char **map = map_to_array(argv[1]);
+	if (!map)
+	{
+		ft_printf("Error: Failed to parse the map file.\n");
+		return (1);
+	}
+	for (int i = 0; map[i]; i++)
+	{
+		ft_printf("%s\n", map[i]);
+		free(map[i]);
+	}
+	free(map);
+	return (0);
+}
