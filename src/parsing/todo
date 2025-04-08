@@ -1,0 +1,40 @@
+Step 1: Extract the Map Portion
+You need to extract the map portion from the configuration file, skipping the texture and color definitions. This is already partially implemented in your map_to_array function. Ensure that:
+
+You correctly identify where the map starts (after the texture and color definitions).
+You copy only the map portion into a new 2D array.
+Key Points:
+
+Use ft_strchr or similar to identify lines starting with N, S, W, E, F, or C to skip them.
+Allocate memory for the map portion and copy the relevant lines.
+
+
+Step 2: Validate Map Characters
+Once the map is extracted, validate that it contains only valid characters (1, 0, N, S, E, W, and spaces). This is implemented in ft_valid_chars.
+
+Steps:
+
+Iterate through the map rows and columns.
+Check if each character belongs to the valid set.
+If an invalid character is found, return an error.
+
+
+Step 3: Validate Map Boundaries
+Ensure that the map is surrounded by walls (1). This is implemented in ft_valid_map using a flood-fill algorithm (ft_path_check).
+
+Steps:
+
+Add padding around the map to simplify boundary checks (done in process_map).
+Use a flood-fill algorithm to traverse the map starting from the player's position (N, S, E, or W).
+If the flood-fill reaches outside the map boundaries, the map is invalid.
+
+
+Step 4: Integrate the Validation
+Integrate the validation steps into your map_to_array or init_map function. After extracting the map:
+
+Validate the characters using ft_valid_chars.
+Validate the boundaries using ft_valid_map.
+
+
+Step 5: Free Memory
+Ensure that all dynamically allocated memory is freed in case of errors or after the program finishes.

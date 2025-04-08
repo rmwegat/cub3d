@@ -6,23 +6,26 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/08 15:46:28 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:24:08 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static int get_map_dimensions(char *file, int *rows, int *cols)
+static int	get_map_dimensions(char *file, int *rows, int *cols)
 {
-	int fd = open(file, O_RDONLY);
+	int		fd;
+	char	*line;
+	int		len;
+
+	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	char *line;
 	*rows = 0;
 	*cols = 0;
 	while ((line = get_next_line(fd)))
 	{
-		int len = ft_strlen(line);
+		len = ft_strlen(line);
 		if (len > *cols)
 			*cols = len;
 		(*rows)++;
@@ -32,10 +35,10 @@ static int get_map_dimensions(char *file, int *rows, int *cols)
 	return (0);
 }
 
-static char *allocate_and_fill_line(char *line, int cols)
+static char	*allocate_and_fill_line(char *line, int cols)
 {
-	int j;
-	char *map_line;
+	int		j;
+	char	*map_line;
 
 	map_line = malloc(sizeof(char) * (cols + 1));
 	if (!map_line)
@@ -43,7 +46,10 @@ static char *allocate_and_fill_line(char *line, int cols)
 	j = 0;
 	while (line[j] && line[j] != '\n')
 	{
-		map_line[j] = (line[j] == ' ' || line[j] == '\t') ? 'X' : line[j];
+		if (line[j] == ' ' || line[j] == '\t')
+			map_line[j] = 'X';
+		else
+			map_line[j] = line[j];
 		j++;
 	}
 	while (j < cols)
@@ -52,11 +58,11 @@ static char *allocate_and_fill_line(char *line, int cols)
 	return (map_line);
 }
 
-static char **allocate_map(int rows, int cols, int fd)
+static char	**allocate_map(int rows, int cols, int fd)
 {
-	char **map;
-	char *line;
-	int i;
+	int		i;
+	char	*line;
+	char	**map;
 
 	map = malloc(sizeof(char *) * (rows + 1));
 	if (!map)
@@ -79,12 +85,12 @@ static char **allocate_map(int rows, int cols, int fd)
 	return (map);
 }
 
-char **map_to_array(char *file)
+char	**config_to_array(char *file)
 {
-	int rows;
-	int cols;
-	int fd;
-	char **map;
+	int		fd;
+	int		rows;
+	int		cols;
+	char	**map;
 
 	rows = 0;
 	cols = 0;
@@ -94,6 +100,11 @@ char **map_to_array(char *file)
 	map = allocate_map(rows, cols, fd);
 	close(fd);
 	return (map);
+}
+
+char	**map_to_array(char *file)
+{
+
 }
 
 int main(int argc, char **argv)
@@ -111,7 +122,14 @@ int main(int argc, char **argv)
 	}
 	for (int i = 0; map[i]; i++)
 	{
-		ft_printf("%s\n", map[i]);
+		for (int j = 0; map[i][j]; j++)
+		{
+			if (map[i][j] == 'X')
+				write(1, "\033[31mX\033[0m", 11);
+			else
+				ft_printf("%c", map[i][j]);
+		}
+		ft_printf("\n");
 		free(map[i]);
 	}
 	free(map);
