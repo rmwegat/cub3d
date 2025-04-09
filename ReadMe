@@ -22,7 +22,7 @@ Game Part Emil:
 	Raycasting:
 		- Implement DDA (https://lodev.org/cgtutor/raycasting.html)
 		- Wall distances and heights
-		- Wall textures
+		- render Wall textures
 		- Raycasting based on rotation
 		- Raycasting based on movement
 		- Floor and ceiling rendering

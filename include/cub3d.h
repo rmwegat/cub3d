@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/03 16:28:21 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:08:10 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,43 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
+typedef struct s_textures
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+}	t_textures;
+
+typedef struct s_colors
+{
+	int	floor;
+	int	ceiling;
+}	t_colors;
+
+typedef struct s_player
+{
+	float	x;
+	float	y;
+	float	direction;
+}	t_player;
 
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	char		**map;
-
+	t_textures	textures;
+	t_colors	colors;
+	t_player	player;
 }	t_game;
+
 
 // Parsing
 int check_input(char *argv, t_game *game);
 
 // initialisation
-char **map_to_array(char *argv);
+char	**config_to_array(char *file);
+char	**map_to_array(char *file);
 
 #endif

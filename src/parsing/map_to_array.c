@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/08 16:24:08 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:00:25 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,36 +102,28 @@ char	**config_to_array(char *file)
 	return (map);
 }
 
-char	**map_to_array(char *file)
-{
-
-}
-
-int main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		ft_printf("Usage: %s <map_file>\n", argv[0]);
-		return (1);
-	}
-	char **map = map_to_array(argv[1]);
-	if (!map)
-	{
-		ft_printf("Error: Failed to parse the map file.\n");
-		return (1);
-	}
-	for (int i = 0; map[i]; i++)
-	{
-		for (int j = 0; map[i][j]; j++)
-		{
-			if (map[i][j] == 'X')
-				write(1, "\033[31mX\033[0m", 11);
-			else
-				ft_printf("%c", map[i][j]);
-		}
-		ft_printf("\n");
-		free(map[i]);
-	}
-	free(map);
-	return (0);
-}
+// int main(int argc, char **argv)
+// {
+// 	if (argc != 2)
+// 	{
+// 		ft_printf("Usage: %s <map_file>\n", argv[0]);
+// 		return (1);
+// 	}
+// 	char **map = config_to_array(argv[1]);
+// 	if (!map)
+// 		return (ft_printf("Error: Failed to parse the map file.\n"));
+// 	for (int i = 0; map[i]; i++)
+// 	{
+// 		for (int j = 0; map[i][j]; j++)
+// 		{
+// 			if (map[i][j] == 'X')
+// 				write(1, "\033[31mX\033[0m", 11);
+// 			else
+// 				ft_printf("%c", map[i][j]);
+// 		}
+// 		ft_printf("\n");
+// 		free(map[i]);
+// 	}
+// 	free(map);
+// 	return (0);
+// }
