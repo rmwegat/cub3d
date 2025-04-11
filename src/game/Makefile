@@ -43,7 +43,7 @@ MLXR:
 	@echo "\033[0;31m 🗑️  [MLX42 removed]\033[0m"
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJS_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "\033[0;31m 🗑️  [OBJS deleted]\033[0m"
 
