@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:12:46 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/11 17:00:31 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:50:50 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(void)
 	init_game(&game);
 	draw_map(&game);
 	draw_player(&game);
+	draw_direction_line(&game);
+	mlx_key_hook(game.mlx, &handle_keystrokes, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

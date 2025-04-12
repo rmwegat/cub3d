@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/11 16:59:19 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:48:32 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ char	**init_map()
 				}
 				else
 				{
+					for (int x = 0; x < TILE_SIZE; x++)
+						for (int y = 0; y < TILE_SIZE; y++)
+							mlx_put_pixel(game->image, col * TILE_SIZE + x, row * TILE_SIZE + y, 0x000000FF);
 					for (int i = 0; i < TILE_SIZE; i++)
 						mlx_put_pixel(game->image, start_x + i, start_y, 0xFFFFFFFF);
 					for (int i = 0; i < TILE_SIZE; i++)
@@ -92,4 +95,74 @@ void	draw_player(t_game *game)
 			}
 		}
 	}
+}
+
+void	draw_direction_line(t_game *game)
+{
+	float	x;
+	float	y;
+	float	dx;
+	float	dy;
+
+	x = game->player_x;
+	y = game->player_y;
+	dx = cos(game->player_angle);
+	dy = sin(game->player_angle);
+
+	for (int i = 0; i < 1000; i++)
+	{
+		x += dx;
+		y += dy;
+		if (game->map[(int)y / 64][(int)x / 64] == '0' || game->map[(int)y / 64][(int)x / 64] == 'N')
+			mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
+		else
+			break ;
+	}
+}
+
+void    handle_keystrokes(mlx_key_data_t data, void *param)
+{
+	t_game *game;
+	float	dx;
+	float	dy;
+
+	game = (t_game *) param;
+	dx = cos(game->player_angle) * MOV_SPEED;
+	dy = sin(game->player_angle) * MOV_SPEED;
+	if (data.action == MLX_PRESS || data.action == MLX_REPEAT)
+	{
+		if (data.key == MLX_KEY_W)
+		{
+			game->player_x += dx;
+			game->player_y += dy;
+		}
+		if (data.key == MLX_KEY_A)
+		{
+			game->player_x += dy;
+			game->player_y -= dx;
+		}
+		if (data.key == MLX_KEY_S)
+		{
+			game->player_x -= dx;
+			game->player_y -= dy;
+		}
+		if (data.key == MLX_KEY_D)
+		{
+			game->player_x -= dy;
+			game->player_y += dx;
+		}
+		if (data.key == MLX_KEY_LEFT)
+		{
+			game->player_angle -= ROT_SPEED;
+		}
+		if (data.key == MLX_KEY_RIGHT)
+		{
+			game->player_angle += ROT_SPEED;
+		}
+		draw_map(game);
+		draw_player(game);
+		draw_direction_line(game);
+	}
+	if (data.action == MLX_PRESS && data.key == MLX_KEY_ESCAPE)
+		exit(0);
 }
