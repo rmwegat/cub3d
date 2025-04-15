@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/09 14:00:25 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/15 15:12:35 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static char	*allocate_and_fill_line(char *line, int cols)
 	j = 0;
 	while (line[j] && line[j] != '\n')
 	{
-		if (line[j] == ' ' || line[j] == '\t')
-			map_line[j] = 'X';
-		else
+		// if (line[j] == ' ' || line[j] == '\t')
+		// 	map_line[j] = 'X';
+		// else
 			map_line[j] = line[j];
 		j++;
 	}
@@ -102,6 +102,7 @@ char	**config_to_array(char *file)
 	return (map);
 }
 
+char	**get_map()
 // int main(int argc, char **argv)
 // {
 // 	if (argc != 2)

@@ -6,17 +6,11 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:59:17 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/08 16:00:16 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/15 15:23:20 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-int	is_valid_color(char *argv)
-{
-	(void)argv;
-	return (0);
-}
 
 int	is_valid_texture(char *argv)
 {
@@ -32,13 +26,12 @@ int	is_valid_map(char **map)
 
 int	check_config(char *argv, t_game *game)
 {
-	game->map = map_to_array(argv);
+	get_textures(game, argv);
+	game->map = get_map(argv);
 	if (is_valid_map(game->map))
 		return (ft_printf("Error: Invalid map configuration.\n"));
 	if (is_valid_texture(argv))
 		return (ft_printf("Error: Invalid texture configuration.\n"));
-	if (is_valid_color(argv))
-		return (ft_printf("Error: Invalid color configuration.\n"));
 	return (0);
 }
 

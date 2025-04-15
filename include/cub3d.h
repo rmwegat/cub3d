@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/09 14:08:10 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/15 15:22:59 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ typedef struct s_textures
 
 typedef struct s_colors
 {
-	int	floor;
-	int	ceiling;
+	int	r;
+	int	g;
+	int	b;
+	int	a;
 }	t_colors;
 
 typedef struct s_player
@@ -56,13 +58,16 @@ typedef struct s_game
 	mlx_image_t	*image;
 	char		**map;
 	t_textures	textures;
-	t_colors	colors;
+	t_colors	celing_color;
+	t_colors	floor_color;
 	t_player	player;
 }	t_game;
 
 
 // Parsing
 int check_input(char *argv, t_game *game);
+int	parse_color(char *color_str, t_colors *color);
+
 
 // initialisation
 char	**config_to_array(char *file);
