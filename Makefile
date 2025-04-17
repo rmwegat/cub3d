@@ -7,8 +7,9 @@ CFLAGS = -Wall -Wextra -Werror -Ofast -o3
 VPATH = src:src/parsing:src/game
 
 SRCS = map_to_array.c \
-	# main.c \
-	# init.c \
+	main.c \
+	get_colors.c \
+	process_config.c \
 
 OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/15 15:22:26 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:57:56 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,35 @@ char	*skip_whitespace(char *str)
 	return (str);
 }
 
-void	get_textures(t_game *game, char **config_array)
+int	parse_config(char *file, t_game *game)
 {
-	int i;
+	int		fd;
+	char	*line;
 
-	i = 0;
-	while (config_array[i])
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (perror("Error: Failed to open config file!"), 1);
+	while ((line = get_next_line(fd)))
 	{
-		if (ft_strncmp(config_array[i], "NO", 2) == 0)
-			game->textures.north = ft_strdup(skip_whitespace(config_array[i] + 2));
-		else if (ft_strncmp(config_array[i], "SO", 2) == 0)
-			game->textures.south = ft_strdup(skip_whitespace(config_array[i] + 2));
-		else if (ft_strncmp(config_array[i], "WE", 2) == 0)
-			game->textures.west = ft_strdup(skip_whitespace(config_array[i] + 2));
-		else if (ft_strncmp(config_array[i], "EA", 2) == 0)
-			game->textures.east = ft_strdup(skip_whitespace(config_array[i] + 2));
-		else if (ft_strncmp(config_array[i], "F", 1) == 0)
-			parse_color(skip_whitespace(config_array[i] + 1), &game->floor_color);
-		else if (ft_strncmp(config_array[i], "C", 1) == 0)
-			parse_color(skip_whitespace(config_array[i] + 1), &game->celing_color);
-		i++;
+		if (ft_strlen(line) == 0)
+		{
+			free(line);
+			continue;
+		}
+		if (ft_strncmp(line, "NO", 2) == 0)
+			game->textures.north = ft_strdup(skip_whitespace(line + 2));
+		else if (ft_strncmp(line, "SO", 2) == 0)
+			game->textures.south = ft_strdup(skip_whitespace(line + 2));
+		else if (ft_strncmp(line, "WE", 2) == 0)
+			game->textures.west = ft_strdup(skip_whitespace(line + 2));
+		else if (ft_strncmp(line, "EA", 2) == 0)
+			game->textures.east = ft_strdup(skip_whitespace(line + 2));
+		else if (ft_strncmp(line, "F", 1) == 0)
+			parse_color(skip_whitespace(line + 1), &game->floor_color);
+		else if (ft_strncmp(line, "C", 1) == 0)
+			parse_color(skip_whitespace(line + 1), &game->celing_color);
+		free(line);
 	}
+	close(fd);
+	return (extract_map(file, game), 0);
 }
-

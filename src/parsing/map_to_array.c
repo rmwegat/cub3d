@@ -6,125 +6,84 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/15 15:12:35 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/17 15:39:40 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static int	get_map_dimensions(char *file, int *rows, int *cols)
+int	is_valid_map_line(char *line)
 {
-	int		fd;
-	char	*line;
-	int		len;
+	int	j;
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (-1);
-	*rows = 0;
-	*cols = 0;
-	while ((line = get_next_line(fd)))
-	{
-		len = ft_strlen(line);
-		if (len > *cols)
-			*cols = len;
-		(*rows)++;
-		free(line);
-	}
-	close(fd);
-	return (0);
-}
-
-static char	*allocate_and_fill_line(char *line, int cols)
-{
-	int		j;
-	char	*map_line;
-
-	map_line = malloc(sizeof(char) * (cols + 1));
-	if (!map_line)
-		return (NULL);
 	j = 0;
-	while (line[j] && line[j] != '\n')
+	while (line[j] == ' ')
+		j++;
+	if (line[j] != '1')
+		return (0);
+	while (line[j])
 	{
-		// if (line[j] == ' ' || line[j] == '\t')
-		// 	map_line[j] = 'X';
-		// else
-			map_line[j] = line[j];
+		if (line[j] != '1' && line[j] != '0' &&
+			line[j] != 'N' && line[j] != 'S' &&
+			line[j] != 'E' && line[j] != 'W' &&
+			line[j] != ' ' && line[j] != '\n')
+			return (0);
 		j++;
 	}
-	while (j < cols)
-		map_line[j++] = 'X';
-	map_line[j] = '\0';
-	return (map_line);
+	return (1);
 }
 
-static char	**allocate_map(int rows, int cols, int fd)
+int	is_end_of_map_line(char *line)
 {
-	int		i;
-	char	*line;
-	char	**map;
+	int	j;
 
-	map = malloc(sizeof(char *) * (rows + 1));
-	if (!map)
-		return (NULL);
-	i = 0;
-	while ((line = get_next_line(fd)))
+	j = 0;
+	while (line[j])
 	{
-		map[i] = allocate_and_fill_line(line, cols);
-		free(line);
-		if (!map[i])
-		{
-			while (--i >= 0)
-				free(map[i]);
-			free(map);
-			return (NULL);
-		}
-		i++;
+		if (line[j] != '1' && line[j] != ' ' && line[j] != '\n')
+			return (0);
+		j++;
 	}
-	map[i] = NULL;
-	return (map);
+	return (1);
 }
-
-char	**config_to_array(char *file)
+void	extract_map(char *file, t_game *game)
 {
 	int		fd;
-	int		rows;
-	int		cols;
-	char	**map;
+	char	*line;
+	int		i;
+	int		is_map_started;
 
-	rows = 0;
-	cols = 0;
+	i = 0;
+	is_map_started = 0;
 	fd = open(file, O_RDONLY);
-	if (fd < 0 || get_map_dimensions(file, &rows, &cols) < 0)
-		return (NULL);
-	map = allocate_map(rows, cols, fd);
-	close(fd);
-	return (map);
-}
+	if (fd < 0)
+		return (perror("Error: Failed to open config file!"));
+	game->map = malloc(sizeof(char *) * 1024);
+	if (!game->map)
+		return (close(fd), perror("Error: Map allocation failed!"));
+	while ((line = get_next_line(fd)))
+	{
+		if (!is_map_started && is_valid_map_line(line))
+			is_map_started = 1;
 
-char	**get_map()
-// int main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		ft_printf("Usage: %s <map_file>\n", argv[0]);
-// 		return (1);
-// 	}
-// 	char **map = config_to_array(argv[1]);
-// 	if (!map)
-// 		return (ft_printf("Error: Failed to parse the map file.\n"));
-// 	for (int i = 0; map[i]; i++)
-// 	{
-// 		for (int j = 0; map[i][j]; j++)
-// 		{
-// 			if (map[i][j] == 'X')
-// 				write(1, "\033[31mX\033[0m", 11);
-// 			else
-// 				ft_printf("%c", map[i][j]);
-// 		}
-// 		ft_printf("\n");
-// 		free(map[i]);
-// 	}
-// 	free(map);
-// 	return (0);
-// }
+		if (is_map_started)
+		{
+			game->map[i] = ft_strdup(line);
+			if (!game->map[i])
+				return (close(fd), ft_free_split(game->map),
+					perror("Error: Map line allocation failed!"));
+			if (i > 0 && is_end_of_map_line(line))
+			{
+				free(line);
+				i++;
+				break;
+			}
+			free(line);
+			i++;
+		}
+		else
+			free(line);
+	}
+	game->map[i] = NULL;
+	close(fd);
+}

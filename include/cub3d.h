@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/15 15:22:59 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:47:23 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ typedef struct s_game
 
 
 // Parsing
-int check_input(char *argv, t_game *game);
-int	parse_color(char *color_str, t_colors *color);
-
+int		parse_config(char *file, t_game *game);
+int		check_input(char *argv, t_game *game);
+int		parse_color(char *color_str, t_colors *color);
+void	ft_free_split(char **split);
+void	extract_map(char *file, t_game *game);
 
 // initialisation
 char	**config_to_array(char *file);
