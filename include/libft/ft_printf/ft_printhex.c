@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_printhex(unsigned int nbr, int *len, const char s)
+void	ft_printhex(int nbr, int *len, const char s)
 {
 	if (nbr < 0)
 	{

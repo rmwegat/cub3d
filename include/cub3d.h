@@ -33,23 +33,27 @@
 #define ONE_DEGREE 0.01745329f
 #define	TILE_SIZE 64
 #define	FOV	60
-#define	ROT_SPEED 0.05f
-#define MOV_SPEED 2.0f
+#define	ROT_SPEED 0.005f
+#define MOV_SPEED 0.4f
+
+
+typedef	struct s_player
+{
+	float		x;
+	float		y;
+	float		dx;
+	float		dy;
+	float		angle;
+}	t_player;
 
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	char		**map;
+	t_player	*player;
+	bool		keys[348];
 }	t_game;
-
-typedef	struct s_player
-{
-	float		player_x;
-	float		player_y;
-	float		player_angle;
-	bool
-}
 
 // Parsing
 int check_input(char *argv, t_game *game);

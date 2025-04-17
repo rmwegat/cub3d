@@ -21,5 +21,8 @@ void    draw_map(t_game *game);
 void    draw_player(t_game *game);
 void    draw_direction_line(t_game *game);
 void    handle_keystrokes(mlx_key_data_t data, void *param);
+void    update_keystrokes(void *param);
+void	init_player(t_player *player);
+void	move_player(t_game *game, float dx, float dy, bool *redraw);
 
 #endif

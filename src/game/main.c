@@ -15,15 +15,16 @@
 int	main(void)
 {
 	t_game game;
-	game.player_x = 7 * TILE_SIZE + TILE_SIZE / 2;
-	game.player_y = 2 * TILE_SIZE + TILE_SIZE / 2;
-	game.player_angle = PI / 2;
+	t_player player;
+	game.player = &player;
+	init_player(&player);
 	game.map = init_map();
 	init_game(&game);
 	draw_map(&game);
 	draw_player(&game);
 	draw_direction_line(&game);
 	mlx_key_hook(game.mlx, &handle_keystrokes, &game);
+	mlx_loop_hook(game.mlx, &update_keystrokes, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

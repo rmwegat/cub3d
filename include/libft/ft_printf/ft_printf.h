@@ -19,7 +19,7 @@
 int		ft_printf(const char *string, ...);
 void	ft_printptr(void *p, int *len);
 void	ft_printunsigned(unsigned int n, int *len);
-void	ft_printhex(unsigned int nbr, int *len, const char s);
+void	ft_printhex(int nbr, int *len, const char s);
 void	ft_printchar(int c, int *len);
 void	ft_printint(int n, int *len);
 void	ft_printstr(char *s, int *len);

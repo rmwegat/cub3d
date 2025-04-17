@@ -17,7 +17,7 @@ void	init_game(t_game *game)
 	game->mlx = mlx_init(WIDTH, HEIGHT, "CUB3D", false);
 	game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
-		}
+}
 
 char	**init_map()
 {
@@ -89,8 +89,8 @@ void	draw_player(t_game *game)
 		{
 			if (x * x + y * y <= radius * radius)
 			{
-				px = (int)(game->player_x + x);
-				py = (int)(game->player_y + y);
+				px = (int)(game->player->x + x);
+				py = (int)(game->player->y + y);
 				mlx_put_pixel(game->image, px, py, 0xFF0000FF);
 			}
 		}
@@ -101,18 +101,13 @@ void	draw_direction_line(t_game *game)
 {
 	float	x;
 	float	y;
-	float	dx;
-	float	dy;
 
-	x = game->player_x;
-	y = game->player_y;
-	dx = cos(game->player_angle);
-	dy = sin(game->player_angle);
-
+	x = game->player->x;
+	y = game->player->y;
 	for (int i = 0; i < 1000; i++)
 	{
-		x += dx;
-		y += dy;
+		x += game->player->dx;
+		y += game->player->dy;
 		if (game->map[(int)y / 64][(int)x / 64] == '0' || game->map[(int)y / 64][(int)x / 64] == 'N')
 			mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
 		else
@@ -123,46 +118,63 @@ void	draw_direction_line(t_game *game)
 void    handle_keystrokes(mlx_key_data_t data, void *param)
 {
 	t_game *game;
-	float	dx;
-	float	dy;
 
 	game = (t_game *) param;
-	dx = cos(game->player_angle) * MOV_SPEED;
-	dy = sin(game->player_angle) * MOV_SPEED;
-	if (data.action == MLX_PRESS || data.action == MLX_REPEAT)
+	if (data.action == MLX_PRESS)
 	{
-		if (data.key == MLX_KEY_W)
-		{
-			game->player_x += dx;
-			game->player_y += dy;
-		}
-		if (data.key == MLX_KEY_A)
-		{
-			game->player_x += dy;
-			game->player_y -= dx;
-		}
-		if (data.key == MLX_KEY_S)
-		{
-			game->player_x -= dx;
-			game->player_y -= dy;
-		}
-		if (data.key == MLX_KEY_D)
-		{
-			game->player_x -= dy;
-			game->player_y += dx;
-		}
-		if (data.key == MLX_KEY_LEFT)
-		{
-			game->player_angle -= ROT_SPEED;
-		}
-		if (data.key == MLX_KEY_RIGHT)
-		{
-			game->player_angle += ROT_SPEED;
-		}
+		if (data.key == MLX_KEY_ESCAPE)
+			exit(0);
+		game->keys[data.key] = true;
+	}
+	else if (data.action == MLX_RELEASE)
+		game->keys[data.key] = false;
+}
+
+void    update_keystrokes(void *param)
+{
+	t_game	*game;
+	bool	redraw;
+
+	game = (t_game *) param;
+	redraw = false;
+	if (game->keys[MLX_KEY_W])
+		move_player(game, game->player->dx * MOV_SPEED, game->player->dy * MOV_SPEED, &redraw);
+	if (game->keys[MLX_KEY_A])
+		move_player(game, game->player->dy * MOV_SPEED, -game->player->dx * MOV_SPEED, &redraw);
+	if (game->keys[MLX_KEY_S])
+		move_player(game, -game->player->dx * MOV_SPEED, -game->player->dy * MOV_SPEED, &redraw);
+	if (game->keys[MLX_KEY_D])
+		move_player(game, -game->player->dy * MOV_SPEED, game->player->dx * MOV_SPEED, &redraw);
+	if (game->keys[MLX_KEY_LEFT] || game->keys[MLX_KEY_RIGHT])
+	{
+		if (game->keys[MLX_KEY_LEFT])
+			game->player->angle -= ROT_SPEED;
+		if (game->keys[MLX_KEY_RIGHT])
+			game->player->angle += ROT_SPEED;
+		game->player->dx = cos(game->player->angle);
+		game->player->dy = sin(game->player->angle);
+		redraw = true;
+	}
+	if (redraw)
+	{
 		draw_map(game);
 		draw_player(game);
 		draw_direction_line(game);
 	}
-	if (data.action == MLX_PRESS && data.key == MLX_KEY_ESCAPE)
-		exit(0);
+}
+
+void	move_player(t_game *game, float dx, float dy, bool *redraw)
+{
+	game->player->x += dx;
+	game->player->y += dy;
+	*redraw = true;
+}	
+
+void	init_player(t_player *player)
+{
+	player->x = 7 * TILE_SIZE + TILE_SIZE / 2;
+	player->y = 2 * TILE_SIZE + TILE_SIZE / 2;
+	player->angle = 3*PI/2;
+	player->dx = cos(player->angle);
+	player->dy = sin(player->angle);
 }

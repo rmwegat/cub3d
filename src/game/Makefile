@@ -9,7 +9,7 @@ SRCS =	main.c game.c
 OBJS_DIR = ../../objs
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
-MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
+MLXFLAGS = -lglfw -ldl -pthread -lm -lX11
 MLXINCLUDE = ../../include/MLX42/build/libmlx42.a -Iinclude -lglfw
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
 
@@ -28,7 +28,7 @@ $(OBJS_DIR)/%.o: src/%.c
 
 MLX42:
 	@if [ ! -d "include/MLX42" ]; then \
-		cd include && git clone $(MLX_REPO_URL) MLX42; \
+		cd ../../include && git clone $(MLX_REPO_URL) MLX42; \
 		cd MLX42 && cmake -B build && cd build && make && cd ../..; \
 		echo "\033[1;32m ✅ [MLX42 installed]\033[0m"; \
 	else \
