@@ -22,7 +22,7 @@ int	main(void)
 	init_game(&game);
 	draw_map(&game);
 	draw_player(&game);
-	draw_direction_line(&game);
+	ray_caster(&game);
 	mlx_key_hook(game.mlx, &handle_keystrokes, &game);
 	mlx_loop_hook(game.mlx, &update_keystrokes, &game);
 	mlx_loop(game.mlx);

@@ -29,12 +29,14 @@
 #define WIDTH 1024
 #define HEIGHT 768
 #define PI 3.14159265f
-#define HALF_PI PI / 2
+#define HALF_PI PI/2
+#define TWO_PI 6.28318530f
 #define ONE_DEGREE 0.01745329f
 #define	TILE_SIZE 64
 #define	FOV	60
 #define	ROT_SPEED 0.005f
 #define MOV_SPEED 0.4f
+#define DEBUG_MODE 1
 
 
 typedef	struct s_player

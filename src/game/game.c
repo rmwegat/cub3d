@@ -26,7 +26,7 @@ char	**init_map()
 	map = malloc(8 * sizeof(char *));
 	map[0] = ft_strdup("1111111111");
 	map[1] = ft_strdup("1000000001");
-	map[2] = ft_strdup("1000000N01");
+	map[2] = ft_strdup("1000000001");
 	map[3] = ft_strdup("1000000001");
 	map[4] = ft_strdup("1001000101");
 	map[5] = ft_strdup("1000000001");
@@ -35,7 +35,7 @@ char	**init_map()
 	return (map);
 }
 
-	void	draw_map(t_game *game)
+void	draw_map(t_game *game)
 	{
 		int	start_x;
 		int	start_y;
@@ -97,60 +97,45 @@ void	draw_player(t_game *game)
 	}
 }
 
-void	draw_direction_line(t_game *game)
-{
-	float	x;
-	float	y;
-
-	x = game->player->x;
-	y = game->player->y;
-	for (int i = 0; i < 1000; i++)
-	{
-		x += game->player->dx;
-		y += game->player->dy;
-		if (game->map[(int)y / 64][(int)x / 64] == '0' || game->map[(int)y / 64][(int)x / 64] == 'N')
-			mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
-		else
-			break ;
-	}
-}
 
 void    handle_keystrokes(mlx_key_data_t data, void *param)
 {
 	t_game *game;
-
+	
 	game = (t_game *) param;
 	if (data.action == MLX_PRESS)
 	{
 		if (data.key == MLX_KEY_ESCAPE)
-			exit(0);
+		exit(0);
 		game->keys[data.key] = true;
 	}
 	else if (data.action == MLX_RELEASE)
-		game->keys[data.key] = false;
+	game->keys[data.key] = false;
 }
 
 void    update_keystrokes(void *param)
 {
 	t_game	*game;
 	bool	redraw;
-
+	
 	game = (t_game *) param;
 	redraw = false;
 	if (game->keys[MLX_KEY_W])
-		move_player(game, game->player->dx * MOV_SPEED, game->player->dy * MOV_SPEED, &redraw);
+	move_player(game, game->player->dx * MOV_SPEED, game->player->dy * MOV_SPEED, &redraw);
 	if (game->keys[MLX_KEY_A])
-		move_player(game, game->player->dy * MOV_SPEED, -game->player->dx * MOV_SPEED, &redraw);
+	move_player(game, game->player->dy * MOV_SPEED, -game->player->dx * MOV_SPEED, &redraw);
 	if (game->keys[MLX_KEY_S])
-		move_player(game, -game->player->dx * MOV_SPEED, -game->player->dy * MOV_SPEED, &redraw);
+	move_player(game, -game->player->dx * MOV_SPEED, -game->player->dy * MOV_SPEED, &redraw);
 	if (game->keys[MLX_KEY_D])
-		move_player(game, -game->player->dy * MOV_SPEED, game->player->dx * MOV_SPEED, &redraw);
+	move_player(game, -game->player->dy * MOV_SPEED, game->player->dx * MOV_SPEED, &redraw);
 	if (game->keys[MLX_KEY_LEFT] || game->keys[MLX_KEY_RIGHT])
 	{
 		if (game->keys[MLX_KEY_LEFT])
-			game->player->angle -= ROT_SPEED;
+		game->player->angle -= ROT_SPEED;
 		if (game->keys[MLX_KEY_RIGHT])
-			game->player->angle += ROT_SPEED;
+		game->player->angle += ROT_SPEED;
+		if (game->player->angle < 0 || game->player->angle > TWO_PI)
+		game->player->angle = norm_angle(game->player->angle);
 		game->player->dx = cos(game->player->angle);
 		game->player->dy = sin(game->player->angle);
 		redraw = true;
@@ -159,7 +144,7 @@ void    update_keystrokes(void *param)
 	{
 		draw_map(game);
 		draw_player(game);
-		draw_direction_line(game);
+		ray_caster(game);
 	}
 }
 
@@ -167,6 +152,12 @@ void	move_player(t_game *game, float dx, float dy, bool *redraw)
 {
 	game->player->x += dx;
 	game->player->y += dy;
+	if (game->map[(int)(game->player->y / TILE_SIZE)][(int)(game->player->x / TILE_SIZE)] == '1')
+	{
+		game->player->x -= dx;
+		game->player->y -= dy;
+		return ;
+	}
 	*redraw = true;
 }	
 
@@ -177,4 +168,93 @@ void	init_player(t_player *player)
 	player->angle = 3*PI/2;
 	player->dx = cos(player->angle);
 	player->dy = sin(player->angle);
+}
+
+float	norm_angle(float angle)
+{
+	if (angle < 0)
+	angle += TWO_PI;
+	else if (angle > TWO_PI)
+	angle -= TWO_PI;
+	return (angle);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+	
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+void	draw_direction_line(t_game *game, float lenght)
+{
+	float	x;
+	float	y;
+
+	x = game->player->x;
+	y = game->player->y;
+	for (int i = 0; i < (int)lenght; i++)
+	{
+		x += game->player->dx;
+		y += game->player->dy;
+		mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
+	}
+}
+
+void	ray_caster(t_game *game)
+{
+	int		map_x;
+	int		map_y;
+	float	delta_x;
+	float	delta_y;
+	int		step_x;
+	int		step_y;
+	float	side_dist_x;
+	float	side_dist_y;
+
+	map_x = (int)(game->player->x / TILE_SIZE);
+	map_y = (int)(game->player->y / TILE_SIZE);
+	delta_x = fabs(1 / game->player->dx);
+	delta_y = fabs(1 / game->player->dy);
+	if (game->player->dx < 0)
+	{
+		step_x = -1;
+		side_dist_x = (game->player->x - map_x * TILE_SIZE) * delta_x;
+	}
+	else
+	{
+		step_x = 1;
+		side_dist_x = ((map_x + 1) * TILE_SIZE - game->player->x) * delta_x;
+	}
+	if (game->player->dy < 0)
+	{
+		step_y = -1;
+		side_dist_y = (game->player->y - map_y * TILE_SIZE) * delta_y;
+	}
+	else
+	{
+		step_y = 1;
+		side_dist_y = ((map_y + 1) * TILE_SIZE - game->player->y) * delta_y;
+	}
+	while (game->map[map_y][map_x] != '1')
+	{
+		if (side_dist_x < side_dist_y)
+		{
+			side_dist_x += delta_x;
+			map_x += step_x;
+		}
+		else
+		{
+			side_dist_y += delta_y;
+			map_y += step_y;
+		}
+	}
+	// if (DEBUG_MODE)
+	// 	draw_direction_line(game, lenght);
 }
