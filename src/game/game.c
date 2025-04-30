@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/12 20:48:32 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:41:59 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,6 @@ void	draw_player(t_game *game)
 	}
 }
 
-
-void    handle_keystrokes(mlx_key_data_t data, void *param)
-{
-	t_game *game;
-	
-	game = (t_game *) param;
-	if (data.action == MLX_PRESS)
-	{
-		if (data.key == MLX_KEY_ESCAPE)
-		exit(0);
-		game->keys[data.key] = true;
-	}
-	else if (data.action == MLX_RELEASE)
-	game->keys[data.key] = false;
-}
-
 void    update_keystrokes(void *param)
 {
 	t_game	*game;
@@ -120,31 +104,32 @@ void    update_keystrokes(void *param)
 	
 	game = (t_game *) param;
 	redraw = false;
-	if (game->keys[MLX_KEY_W])
-	move_player(game, game->player->dx * MOV_SPEED, game->player->dy * MOV_SPEED, &redraw);
-	if (game->keys[MLX_KEY_A])
-	move_player(game, game->player->dy * MOV_SPEED, -game->player->dx * MOV_SPEED, &redraw);
-	if (game->keys[MLX_KEY_S])
-	move_player(game, -game->player->dx * MOV_SPEED, -game->player->dy * MOV_SPEED, &redraw);
-	if (game->keys[MLX_KEY_D])
-	move_player(game, -game->player->dy * MOV_SPEED, game->player->dx * MOV_SPEED, &redraw);
-	if (game->keys[MLX_KEY_LEFT] || game->keys[MLX_KEY_RIGHT])
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+		move_player(game, game->player->dx * MOV_SPEED, game->player->dy * MOV_SPEED, &redraw);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		move_player(game, game->player->dy * MOV_SPEED, -game->player->dx * MOV_SPEED, &redraw);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+		move_player(game, -game->player->dx * MOV_SPEED, -game->player->dy * MOV_SPEED, &redraw);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		move_player(game, -game->player->dy * MOV_SPEED, game->player->dx * MOV_SPEED, &redraw);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) || mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 	{
-		if (game->keys[MLX_KEY_LEFT])
-		game->player->angle -= ROT_SPEED;
-		if (game->keys[MLX_KEY_RIGHT])
-		game->player->angle += ROT_SPEED;
-		if (game->player->angle < 0 || game->player->angle > TWO_PI)
-		game->player->angle = norm_angle(game->player->angle);
+		if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+			game->player->angle -= ROT_SPEED;
+		if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+			game->player->angle += ROT_SPEED;
+		norm_angle(&game->player->angle);
 		game->player->dx = cos(game->player->angle);
 		game->player->dy = sin(game->player->angle);
 		redraw = true;
 	}
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		exit (0);
 	if (redraw)
 	{
 		draw_map(game);
 		draw_player(game);
-		ray_caster(game);
+		draw_rays(game);
 	}
 }
 
@@ -170,13 +155,12 @@ void	init_player(t_player *player)
 	player->dy = sin(player->angle);
 }
 
-float	norm_angle(float angle)
+void	norm_angle(float *angle)
 {
-	if (angle < 0)
-	angle += TWO_PI;
-	else if (angle > TWO_PI)
-	angle -= TWO_PI;
-	return (angle);
+	if (*angle < 0)
+	*angle += TWO_PI;
+	else if (*angle > TWO_PI)
+	*angle -= TWO_PI;
 }
 
 void	free_map(char **map)
@@ -192,69 +176,90 @@ void	free_map(char **map)
 	free(map);
 }
 
-void	draw_direction_line(t_game *game, float lenght)
+void	draw_rays(t_game *game)
 {
-	float	x;
-	float	y;
+	float	start;
+	float	ray_angle;
+	float	ray_step;
 
-	x = game->player->x;
-	y = game->player->y;
-	for (int i = 0; i < (int)lenght; i++)
+	start = game->player->angle - (FOV / 2);
+	ray_step = FOV / WIDTH;
+	for (int i = 0; i < WIDTH; i++)
 	{
-		x += game->player->dx;
-		y += game->player->dy;
-		mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
+		ray_angle = start + i * ray_step;
+		ray_caster(game, ray_angle);
 	}
 }
 
-void	ray_caster(t_game *game)
+void	ray_caster(t_game *game, float angle)
 {
 	int		map_x;
 	int		map_y;
+	float	dx;
+	float	dy;
 	float	delta_x;
 	float	delta_y;
-	int		step_x;
+	int		step_x;		//STEPX, STEPY, THE DIRECTION WE ARE STEPPING ON THE X/Y AXIS (POSITIVE OR NEGATIVE)
 	int		step_y;
 	float	side_dist_x;
 	float	side_dist_y;
+	float	distance;
 
+	dx = cos(angle);
+	dy = sin(angle);
 	map_x = (int)(game->player->x / TILE_SIZE);
 	map_y = (int)(game->player->y / TILE_SIZE);
-	delta_x = fabs(1 / game->player->dx);
-	delta_y = fabs(1 / game->player->dy);
-	if (game->player->dx < 0)
+	delta_x = sqrt(1 + (dy / dx) * (dy / dx)); // THIS CALCULATION TELLS US THE DISTANCE WE NEED TO TRAVEL IN OUR RAY DIRECTION TO TRAVEL ONE UNIT OF X OR Y
+	delta_y = sqrt(1 + (dx / dy) * (dx / dy));
+	if (dx < 0)
 	{
 		step_x = -1;
-		side_dist_x = (game->player->x - map_x * TILE_SIZE) * delta_x;
-	}
+		side_dist_x = (game->player->x - (float)(map_x * TILE_SIZE)) * delta_x; // IN THIS STEP WE ARE SETTING OUR STEP_X AND STEP_Y TO A NEGATIVE OR POSITIVE 1 DEPENDING ON THE DIRECTION AND WE FIND OUT THE DISTANCE OF THE RAY FOR THE CURRENT STARTING CELL
+	}																				// SO THAT WE CAN START THE ALGORIGHM LOOP
 	else
 	{
 		step_x = 1;
-		side_dist_x = ((map_x + 1) * TILE_SIZE - game->player->x) * delta_x;
+		side_dist_x = ((float)(map_x + 1) * (float)TILE_SIZE - game->player->x) * delta_x;
 	}
-	if (game->player->dy < 0)
+	if (dy < 0)
 	{
 		step_y = -1;
-		side_dist_y = (game->player->y - map_y * TILE_SIZE) * delta_y;
+		side_dist_y = (game->player->y - (float)(map_y * TILE_SIZE)) * delta_y;
 	}
 	else
-	{
+	{	
 		step_y = 1;
-		side_dist_y = ((map_y + 1) * TILE_SIZE - game->player->y) * delta_y;
+		side_dist_y = ((float)(map_y + 1) * (float)TILE_SIZE - game->player->y) * delta_y;
 	}
 	while (game->map[map_y][map_x] != '1')
 	{
 		if (side_dist_x < side_dist_y)
 		{
-			side_dist_x += delta_x;
+			distance = side_dist_x;
+			side_dist_x += delta_x * TILE_SIZE;
 			map_x += step_x;
 		}
 		else
 		{
-			side_dist_y += delta_y;
+			distance = side_dist_y;
+			side_dist_y += delta_y * TILE_SIZE;
 			map_y += step_y;
 		}
 	}
-	// if (DEBUG_MODE)
-	// 	draw_direction_line(game, lenght);
+	draw_single_line(game, dx, dy, distance);
+}
+
+void	draw_single_line(t_game *game, float dx, float dy, float distance)
+{
+	float	x;
+	float	y;
+	
+	x = game->player->x;
+	y = game->player->y;
+	for (int i = 0; i < (int)distance; i++)
+	{
+		x += dx;
+		y += dy;
+		mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
+	}
 }

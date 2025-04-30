@@ -9,7 +9,7 @@ SRCS =	main.c game.c
 OBJS_DIR = ../../objs
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
-MLXFLAGS = -lglfw -ldl -pthread -lm -lX11
+MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
 MLXINCLUDE = ../../include/MLX42/build/libmlx42.a -Iinclude -lglfw
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
 

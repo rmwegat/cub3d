@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:12:46 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/12 19:50:50 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:07:19 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	main(void)
 	init_game(&game);
 	draw_map(&game);
 	draw_player(&game);
-	ray_caster(&game);
-	mlx_key_hook(game.mlx, &handle_keystrokes, &game);
+	draw_rays(&game);
 	mlx_loop_hook(game.mlx, &update_keystrokes, &game);
 	mlx_loop(game.mlx);
 	return (0);

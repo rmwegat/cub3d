@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/12 20:34:12 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:04:11 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 #define TWO_PI 6.28318530f
 #define ONE_DEGREE 0.01745329f
 #define	TILE_SIZE 64
-#define	FOV	60
+#define	FOV	HALF_PI / 3
 #define	ROT_SPEED 0.005f
 #define MOV_SPEED 0.4f
 #define DEBUG_MODE 1
@@ -54,7 +54,6 @@ typedef struct s_game
 	mlx_image_t	*image;
 	char		**map;
 	t_player	*player;
-	bool		keys[348];
 }	t_game;
 
 // Parsing
