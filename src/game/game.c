@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/04/30 19:41:59 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:44:43 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,6 @@ void	draw_map(t_game *game)
 		}
 	}
 
-void	draw_player(t_game *game)
-{
-	int	radius;
-	int	px;
-	int	py;
-
-	radius = 3;
-	for (int y = -radius; y <= radius; y++)
-	{
-		for (int x = -radius; x <= radius; x++)
-		{
-			if (x * x + y * y <= radius * radius)
-			{
-				px = (int)(game->player->x + x);
-				py = (int)(game->player->y + y);
-				mlx_put_pixel(game->image, px, py, 0xFF0000FF);
-			}
-		}
-	}
-}
-
 void    update_keystrokes(void *param)
 {
 	t_game	*game;
@@ -126,11 +105,7 @@ void    update_keystrokes(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		exit (0);
 	if (redraw)
-	{
-		draw_map(game);
-		draw_player(game);
 		draw_rays(game);
-	}
 }
 
 void	move_player(t_game *game, float dx, float dy, bool *redraw)
@@ -150,7 +125,7 @@ void	init_player(t_player *player)
 {
 	player->x = 7 * TILE_SIZE + TILE_SIZE / 2;
 	player->y = 2 * TILE_SIZE + TILE_SIZE / 2;
-	player->angle = 3*PI/2;
+	player->angle = TWO_PI / 2;
 	player->dx = cos(player->angle);
 	player->dy = sin(player->angle);
 }
@@ -187,11 +162,11 @@ void	draw_rays(t_game *game)
 	for (int i = 0; i < WIDTH; i++)
 	{
 		ray_angle = start + i * ray_step;
-		ray_caster(game, ray_angle);
+		ray_caster(game, ray_angle, i);
 	}
 }
 
-void	ray_caster(t_game *game, float angle)
+void	ray_caster(t_game *game, float angle, int i)
 {
 	int		map_x;
 	int		map_y;
@@ -246,20 +221,23 @@ void	ray_caster(t_game *game, float angle)
 			map_y += step_y;
 		}
 	}
-	draw_single_line(game, dx, dy, distance);
+	draw_v_strip(game, distance * cos(angle - game->player->angle), i); // DISTANCE WITH THE FORMULA APPLIED TO NORMALIZE THE FISH EYE EFFECT
 }
 
-void	draw_single_line(t_game *game, float dx, float dy, float distance)
+void	draw_v_strip(t_game *game, float distance ,int i)
 {
-	float	x;
-	float	y;
+	float		p_height;
+	float		d;
 	
-	x = game->player->x;
-	y = game->player->y;
-	for (int i = 0; i < (int)distance; i++)
+	p_height = TILE_SIZE/2; // PLAYER HEIGHT, NORMALLY HALF THE SCREEN
+	d = (WIDTH / 2) / tan(FOV/2); // ONE OF THE MOST IMPORTANT FORMULAS IN RAY CASTING, IT IS THE BASE OF DECIDING HOW TALL SHOULD A WALL SLICE BE DEPENDING ON THE RAY DISTANCE
+	for (int j = 0; j < HEIGHT; ++j)
 	{
-		x += dx;
-		y += dy;
-		mlx_put_pixel(game->image, (int)x, (int)y, 0xFF0000FF);
+		if (j < HEIGHT/2 - ((d * p_height) / distance)) // FORMULA FOR CEILING PIXELS
+			mlx_put_pixel(game->image, i, j, 0xFF0000FF);
+		else if (j <= HEIGHT/2 + ((d * p_height) / distance)) // FORMULA FOR WALL PIXELS
+			mlx_put_pixel(game->image, i, j, 0x00FF00FF);
+		else
+			mlx_put_pixel(game->image, i, j, 0x000000FF); // FLOOR
 	}
 }
