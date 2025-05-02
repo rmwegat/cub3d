@@ -77,8 +77,8 @@ int	init_player(t_game *game)
 				player_count++;
 				game->starting_direction = game->map[i][j];
 				game->map[i][j] = '0';
-				game->player.x = (float)j * TILE_SIZE + TILE_SIZE / 2;
-				game->player.y = (float)i * TILE_SIZE + TILE_SIZE / 2;
+				game->player->x = (float)j * TILE_SIZE + TILE_SIZE / 2;
+				game->player->y = (float)i * TILE_SIZE + TILE_SIZE / 2;
 			}
 			j++;
 		}
@@ -127,16 +127,18 @@ void	init(t_game *game)
 		exit(1);
 	}
 	if (game->starting_direction == 'N')
-		game->player.angle = 0;
+		game->player->angle = 0;
 	else if (game->starting_direction == 'E')
-		game->player.angle = PI / 2;
+		game->player->angle = PI / 2;
 	else if (game->starting_direction == 'S')
-		game->player.angle = PI;
+		game->player->angle = PI;
 	else if (game->starting_direction == 'W')
-		game->player.angle = 3 * PI / 2;
+		game->player->angle = 3 * PI / 2;
+	game->player->dx = cos(game->player->angle);
+	game->player->dy = sin(game->player->angle);
 	map_copy = copy_map(game->map);
-	ft_path_check(map_copy, (int)(game->player.x / TILE_SIZE), \
-	(int)(game->player.y / TILE_SIZE));
+	ft_path_check(map_copy, (int)(game->player->x / TILE_SIZE), \
+	(int)(game->player->y / TILE_SIZE));
 	ft_free_map(map_copy);
 	is_map_valid(game->map);
 }
