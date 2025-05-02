@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_config.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/30 19:42:08 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/02 16:34:33 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,5 @@ int	parse_config(char *file, t_game *game)
 		free(line);
 	}
 	close(fd);
-	if (check_wall_textures(game))
-		return (1);
 	return (extract_map(file, game), 0);
 }

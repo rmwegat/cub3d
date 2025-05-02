@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 16:10:01 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:33:35 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,9 @@ typedef struct s_textures
 	char			*south;
 	char			*west;
 	char			*east;
-	mlx_image_t		*north_img;
 	mlx_texture_t	*north_text;
-	mlx_image_t		*south_img;
 	mlx_texture_t	*south_text;
-	mlx_image_t		*west_img;
 	mlx_texture_t	*west_text;
-	mlx_image_t		*east_img;
 	mlx_texture_t	*east_text;
 }	t_textures;
 
@@ -104,11 +100,9 @@ void	ft_free_textures(t_textures *textures);
 void	ft_free_game(t_game *game);
 
 // Texture handling
-int		ft_open_image(t_game *game, mlx_image_t **img_direction,
-		char *img_path);
-int		ft_open_image_keep_text(t_game *game, mlx_image_t **img_direction,
-		mlx_texture_t **text, char *img_path);
 int		check_wall_textures(t_game *game);
+int		load_textures(t_game *game);
+
 
 
 // game

@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/02 16:01:12 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:37:09 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_game(t_game *game)
 	game->mlx = mlx_init(WIDTH, HEIGHT, "CUB3D", false);
 	game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
+	if (!load_textures(game)) // TODO ERROR HANDLE
+		exit(1);
 }
 
 void    update_keystrokes(void *param)
