@@ -127,13 +127,13 @@ void	init(t_game *game)
 		exit(1);
 	}
 	if (game->starting_direction == 'N')
-		game->player->angle = 0;
+		game->player->angle =  3 * PI / 2;
 	else if (game->starting_direction == 'E')
-		game->player->angle = PI / 2;
+		game->player->angle = 0;
 	else if (game->starting_direction == 'S')
-		game->player->angle = PI;
+		game->player->angle = PI / 2;
 	else if (game->starting_direction == 'W')
-		game->player->angle = 3 * PI / 2;
+		game->player->angle = PI;
 	game->player->dx = cos(game->player->angle);
 	game->player->dy = sin(game->player->angle);
 	map_copy = copy_map(game->map);

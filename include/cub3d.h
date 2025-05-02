@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 13:39:54 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/02 16:10:01 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_game
 	t_colors	celing_color;
 	t_colors	floor_color;
 	char		starting_direction;
-	bool		keys[348];
 }	t_game;
 
 // Parsing
@@ -122,10 +121,5 @@ void	norm_angle(float *angle);
 void	ray_caster(t_game *game, float angle, int i);
 void	draw_single_line(t_game *game, float dx, float dy, float distance);
 void	draw_v_strip(t_game *game, float distance, int i);
-
-char	**init_map(void);
-void	draw_map(t_game *game);
-void	draw_player(t_game *game);
-//void	init_player(t_player *player);
 
 #endif

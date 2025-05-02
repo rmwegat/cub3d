@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/02 13:51:38 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/02 16:01:12 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,63 +18,6 @@ void	init_game(t_game *game)
 	game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
-
-char	**init_map()
-{
-	char	**map;
-
-	map = malloc(8 * sizeof(char *));
-	map[0] = ft_strdup("1111111111");
-	map[1] = ft_strdup("1000000001");
-	map[2] = ft_strdup("1000000001");
-	map[3] = ft_strdup("1000000001");
-	map[4] = ft_strdup("1001000101");
-	map[5] = ft_strdup("1000000001");
-	map[6] = ft_strdup("1111111111");
-	map[7] = NULL;
-	return (map);
-}
-
-void	draw_map(t_game *game)
-	{
-		int	start_x;
-		int	start_y;
-		int	row;
-		int	col;
-
-		row = 0;
-		while (game->map[row])
-		{	
-			col = 0;
-			while(game->map[row][col])
-			{
-				start_x = col * TILE_SIZE;
-				start_y = row * TILE_SIZE;
-				if (game->map[row][col] == '1')
-				{
-					for (int x = 0; x < TILE_SIZE; x++)
-						for (int y = 0; y < TILE_SIZE; y++)
-							mlx_put_pixel(game->image, col * TILE_SIZE + x, row * TILE_SIZE + y, 0x00FF00FF);
-				}
-				else
-				{
-					for (int x = 0; x < TILE_SIZE; x++)
-						for (int y = 0; y < TILE_SIZE; y++)
-							mlx_put_pixel(game->image, col * TILE_SIZE + x, row * TILE_SIZE + y, 0x000000FF);
-					for (int i = 0; i < TILE_SIZE; i++)
-						mlx_put_pixel(game->image, start_x + i, start_y, 0xFFFFFFFF);
-					for (int i = 0; i < TILE_SIZE; i++)
-						mlx_put_pixel(game->image, start_x + i, start_y + TILE_SIZE - 1, 0xFFFFFFFF);
-					for (int i = 0; i < TILE_SIZE; i++)
-						mlx_put_pixel(game->image, start_x, start_y + i, 0xFFFFFFFF);
-					for (int i = 0; i < TILE_SIZE; i++)
-						mlx_put_pixel(game->image, start_x + TILE_SIZE - 1, start_y + i, 0xFFFFFFFF);
-				}
-				col++;
-			}
-			row++;
-		}
-	}
 
 void    update_keystrokes(void *param)
 {
@@ -128,19 +71,6 @@ void	norm_angle(float *angle)
 	*angle += TWO_PI;
 	else if (*angle > TWO_PI)
 	*angle -= TWO_PI;
-}
-
-void	free_map(char **map)
-{
-	int	i;
-	
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
 }
 
 void	draw_rays(t_game *game)
