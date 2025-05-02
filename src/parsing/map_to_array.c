@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/17 15:39:40 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:38:59 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	extract_map(char *file, t_game *game)
 		{
 			game->map[i] = ft_strdup(line);
 			if (!game->map[i])
-				return (close(fd), ft_free_split(game->map),
+				return (close(fd), ft_free_map(game->map),
 					perror("Error: Map line allocation failed!"));
 			if (i > 0 && is_end_of_map_line(line))
 			{

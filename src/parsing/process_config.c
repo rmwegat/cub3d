@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/17 14:57:56 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/04/30 19:42:08 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	parse_config(char *file, t_game *game)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (perror("Error: Failed to open config file!"), 1);
+	if (ft_alloc_map(&game->map))
+		return (close(fd), 1);
 	while ((line = get_next_line(fd)))
 	{
 		if (ft_strlen(line) == 0)
@@ -49,5 +51,7 @@ int	parse_config(char *file, t_game *game)
 		free(line);
 	}
 	close(fd);
+	if (check_wall_textures(game))
+		return (1);
 	return (extract_map(file, game), 0);
 }

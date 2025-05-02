@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Ofast -o3
+CFLAGS = -Wall -Wextra -Werror -Ofast -o3 -fsanitize=address,undefined -g
 
 VPATH = src:src/parsing:src/game
 
@@ -10,6 +10,9 @@ SRCS = map_to_array.c \
 	main.c \
 	get_colors.c \
 	process_config.c \
+	init.c \
+	memory_management.c \
+	textures.c \
 
 OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
