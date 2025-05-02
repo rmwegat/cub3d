@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 16:33:35 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:31:11 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,18 @@ typedef struct s_game
 	t_colors	floor_color;
 	char		starting_direction;
 }	t_game;
+
+typedef	struct s_ray
+{
+	float	distance;
+	int		map_x;
+	int		map_y;
+	int		side;
+	float	text_x;
+	float	text_y;
+	char	wall_side;
+}	t_ray;
+
 
 // Parsing
 void	extract_map(char *file, t_game *game);

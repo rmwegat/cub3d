@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/02 16:37:09 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:35:38 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_game(t_game *game)
 	game->mlx = mlx_init(WIDTH, HEIGHT, "CUB3D", false);
 	game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
-	if (!load_textures(game)) // TODO ERROR HANDLE
+	if (load_textures(game)) // TODO ERROR HANDLE
 		exit(1);
 }
 
@@ -92,8 +92,7 @@ void	draw_rays(t_game *game)
 
 void	ray_caster(t_game *game, float angle, int i)
 {
-	int		map_x;
-	int		map_y;
+	t_ray	ray;
 	float	dx;
 	float	dy;
 	float	delta_x;
@@ -102,50 +101,65 @@ void	ray_caster(t_game *game, float angle, int i)
 	int		step_y;
 	float	side_dist_x;
 	float	side_dist_y;
-	float	distance;
 
 	dx = cos(angle);
 	dy = sin(angle);
-	map_x = (int)(game->player->x / TILE_SIZE);
-	map_y = (int)(game->player->y / TILE_SIZE);
+	ray.map_x = (int)(game->player->x / TILE_SIZE);
+	ray.map_y = (int)(game->player->y / TILE_SIZE);
 	delta_x = sqrt(1 + (dy / dx) * (dy / dx)); // THIS CALCULATION TELLS US THE DISTANCE WE NEED TO TRAVEL IN OUR RAY DIRECTION TO TRAVEL ONE UNIT OF X OR Y
 	delta_y = sqrt(1 + (dx / dy) * (dx / dy));
 	if (dx < 0)
 	{
 		step_x = -1;
-		side_dist_x = (game->player->x - (float)(map_x * TILE_SIZE)) * delta_x; // IN THIS STEP WE ARE SETTING OUR STEP_X AND STEP_Y TO A NEGATIVE OR POSITIVE 1 DEPENDING ON THE DIRECTION AND WE FIND OUT THE DISTANCE OF THE RAY FOR THE CURRENT STARTING CELL
+		side_dist_x = (game->player->x - (float)(ray.map_x * TILE_SIZE)) * delta_x; // IN THIS STEP WE ARE SETTING OUR STEP_X AND STEP_Y TO A NEGATIVE OR POSITIVE 1 DEPENDING ON THE DIRECTION AND WE FIND OUT THE DISTANCE OF THE RAY FOR THE CURRENT STARTING CELL
 	}																				// SO THAT WE CAN START THE ALGORIGHM LOOP
 	else
 	{
 		step_x = 1;
-		side_dist_x = ((float)(map_x + 1) * (float)TILE_SIZE - game->player->x) * delta_x;
+		side_dist_x = ((float)(ray.map_x + 1) * (float)TILE_SIZE - game->player->x) * delta_x;
 	}
 	if (dy < 0)
 	{
 		step_y = -1;
-		side_dist_y = (game->player->y - (float)(map_y * TILE_SIZE)) * delta_y;
+		side_dist_y = (game->player->y - (float)(ray.map_y * TILE_SIZE)) * delta_y;
 	}
 	else
 	{	
 		step_y = 1;
-		side_dist_y = ((float)(map_y + 1) * (float)TILE_SIZE - game->player->y) * delta_y;
+		side_dist_y = ((float)(ray.map_y + 1) * (float)TILE_SIZE - game->player->y) * delta_y;
 	}
-	while (game->map[map_y][map_x] != '1')
+	while (game->map[ray.map_y][ray.map_x] != '1')
 	{
 		if (side_dist_x < side_dist_y)
 		{
-			distance = side_dist_x;
+			ray.distance = side_dist_x;
 			side_dist_x += delta_x * TILE_SIZE;
-			map_x += step_x;
+			ray.map_x += step_x;
+			ray.side = 0;
 		}
 		else
 		{
-			distance = side_dist_y;
+			ray.distance = side_dist_y;
 			side_dist_y += delta_y * TILE_SIZE;
-			map_y += step_y;
+			ray.map_y += step_y;
+			ray.side = 1;
 		}
 	}
-	draw_v_strip(game, distance * cos(angle - game->player->angle), i); // DISTANCE WITH THE FORMULA APPLIED TO NORMALIZE THE FISH EYE EFFECT
+	if (ray.side == 0)
+	{
+		if (dx > 0)
+			ray.wall_side = 'W';
+		else
+			ray.wall_side = 'E';
+	}
+	else
+	{
+		if (dy > 0)
+			ray.wall_side = 'N';
+		else
+			ray.wall_side = 'S';
+	}
+	draw_v_strip(game, ray.distance * cos(angle - game->player->angle), i); // DISTANCE WITH THE FORMULA APPLIED TO NORMALIZE THE FISH EYE EFFECT
 }
 
 void	draw_v_strip(t_game *game, float distance ,int i)
