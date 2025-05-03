@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/03 17:05:17 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/03 20:55:50 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ray_caster(t_game *game, float angle, int i)
 	int		step_y;
 	float	side_dist_x;
 	float	side_dist_y;
+	float	hit_point;
 
 	dx = cos(angle);
 	dy = sin(angle);
@@ -145,37 +146,79 @@ void	ray_caster(t_game *game, float angle, int i)
 			ray.side = 1;
 		}
 	}
+	ray.wall_texture = check_side(&game->textures, dx, dy, ray.side);
 	if (ray.side == 0)
+		hit_point = game->player->y + ray.distance * sin(angle);
+	else
+		hit_point = game->player->x + ray.distance * cos(angle);
+	ray.wall_x = fmod(hit_point, TILE_SIZE) / TILE_SIZE;
+	draw_v_strip(game, ray.distance * cos(angle - game->player->angle), i, &ray); // DISTANCE WITH THE FORMULA APPLIED TO NORMALIZE THE FISH EYE EFFECT
+}
+
+void	draw_v_strip(t_game *game, float distance ,int i, t_ray *ray)
+{
+	float			p_height;
+	float			d;
+	float			w_start;
+	float			w_end;	
+	
+	p_height = TILE_SIZE/2; // PLAYER HEIGHT, NORMALLY HALF THE SCREEN
+	d = (WIDTH / 2) / tan(FOV/2); // ONE OF THE MOST IMPORTANT FORMULAS IN RAY CASTING, IT IS THE BASE OF DECIDING HOW TALL SHOULD A WALL SLICE BE DEPENDING ON THE RAY DISTANCE
+	w_start = HEIGHT/2 - ((d * p_height) / distance);
+	w_end = HEIGHT/2 + ((d * p_height) / distance);
+	ray->wall_height = w_end - w_start;
+	for (int j = 0; j < HEIGHT; ++j)
+	{
+		if (j < w_start) // FORMULA FOR CEILING PIXELS
+			mlx_put_pixel(game->image, i, j, game->celing_color.hex);
+		else if (j <= w_end) // FORMULA FOR WALL PIXELS
+		{
+			ray->text_x = ray->wall_x *  ray->wall_texture->width;
+			ray->text_y = ((j - w_start) / TILE_SIZE) * ray->wall_texture->height;
+			mlx_put_pixel(game->image, i, j, get_text_color(ray->wall_texture, ray, j));
+		}
+		else
+			mlx_put_pixel(game->image, i, j, game->floor_color.hex); // FLOOR
+	}
+}
+
+uint32_t	get_text_color(mlx_texture_t *texture, t_ray *ray, int j)
+{
+	t_colors	color;
+	
+	if (!texture || ray->wall_height <= 0)			//Whatever maybe this check is not needed.... I dont know if wither of those two counditions would be possibe to be wrong so far deep in the program, if yes, I have to send the full game struct here later for cleanup
+		exit(1);
+	ray->text_x = (int)(ray->wall_x * texture->width);
+	if (ray->text_x < 0)
+		ray->text_x = 0;
+	if (ray->text_x >= (int)texture->width)
+		ray->text_x = texture->width - 1;
+	ray->text_y = (int)(((float)(j - (HEIGHT / 2  - ray->wall_height / 2)) / ray->wall_height) * texture->height);
+	if (ray->text_y < 0)
+		ray->text_y = 0;
+	if (ray->text_y >= (int)texture->height)
+		ray->text_y = texture->height - 1;
+	color.r = texture->pixels[(ray->text_y * texture->width + ray->text_x) * 4 + 0];
+	color.g = texture->pixels[(ray->text_y * texture->width + ray->text_x) * 4 + 1];
+	color.b = texture->pixels[(ray->text_y * texture->width + ray->text_x) * 4 + 2];
+	color.a = texture->pixels[(ray->text_y * texture->width + ray->text_x) * 4 + 3];
+	return (get_hex(&color));
+}
+
+mlx_texture_t	*check_side(t_textures *texture, float dx, float dy, int side)
+{
+	if (side == 0)
 	{
 		if (dx > 0)
-			ray.wall_side = 'W';
+			return(texture->east_texture);
 		else
-			ray.wall_side = 'E';
+			return(texture->west_texture);
 	}
 	else
 	{
 		if (dy > 0)
-			ray.wall_side = 'N';
+			return(texture->south_texture);
 		else
-			ray.wall_side = 'S';
-	}
-	draw_v_strip(game, ray.distance * cos(angle - game->player->angle), i); // DISTANCE WITH THE FORMULA APPLIED TO NORMALIZE THE FISH EYE EFFECT
-}
-
-void	draw_v_strip(t_game *game, float distance ,int i)
-{
-	float		p_height;
-	float		d;
-	
-	p_height = TILE_SIZE/2; // PLAYER HEIGHT, NORMALLY HALF THE SCREEN
-	d = (WIDTH / 2) / tan(FOV/2); // ONE OF THE MOST IMPORTANT FORMULAS IN RAY CASTING, IT IS THE BASE OF DECIDING HOW TALL SHOULD A WALL SLICE BE DEPENDING ON THE RAY DISTANCE
-	for (int j = 0; j < HEIGHT; ++j)
-	{
-		if (j < HEIGHT/2 - ((d * p_height) / distance)) // FORMULA FOR CEILING PIXELS
-			mlx_put_pixel(game->image, i, j, game->celing_color.hex);
-		else if (j <= HEIGHT/2 + ((d * p_height) / distance)) // FORMULA FOR WALL PIXELS
-			mlx_put_pixel(game->image, i, j, 0x00FF00FF);
-		else
-			mlx_put_pixel(game->image, i, j, game->floor_color.hex); // FLOOR
+			return(texture->north_texture);
 	}
 }

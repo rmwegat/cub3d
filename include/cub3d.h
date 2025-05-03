@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/03 17:08:20 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/03 20:56:01 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@
 # define ONE_DEGREE 0.01745329f
 # define TILE_SIZE 64
 # define FOV (HALF_PI / 3)
-# define ROT_SPEED 0.005f
-# define MOV_SPEED 0.4f
-# define DEBUG_MODE 1
+# define ROT_SPEED 0.01f
+# define MOV_SPEED 0.9f
 
 typedef struct s_player
 {
@@ -62,10 +61,10 @@ typedef struct s_textures
 
 typedef struct s_colors
 {
-	int	r;
-	int	g;
-	int	b;
-	int	a;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
 	u_int32_t	hex;
 }	t_colors;
 
@@ -84,21 +83,24 @@ typedef struct s_game
 
 typedef	struct s_ray
 {
-	float	distance;
-	int		map_x;
-	int		map_y;
-	int		side;
-	float	text_x;
-	float	text_y;
-	char	wall_side;
+	float			distance;
+	int				map_x;
+	int				map_y;
+	int				side;
+	int				text_x;
+	int				text_y;
+	float			wall_x;
+	float			wall_height;
+	mlx_texture_t	*wall_texture;
 }	t_ray;
 
 
 // Parsing
-void	extract_map(char *file, t_game *game);
-int		check_input(char *argv, t_game *game);
-int		parse_config(char *file, t_game *game);
-int		parse_color(char *color_str, t_colors *color);
+void		extract_map(char *file, t_game *game);
+int			check_input(char *argv, t_game *game);
+int			parse_config(char *file, t_game *game);
+int			parse_color(char *color_str, t_colors *color);
+u_int32_t	get_hex(t_colors *rgba);
 
 // Initialization
 void	init(t_game *game);
@@ -119,14 +121,16 @@ int		load_textures(t_game *game);
 
 
 // game
-void	init_game(t_game *game);
-void	draw_rays(t_game *game);
-void	handle_keystrokes(mlx_key_data_t data, void *param);
-void	update_keystrokes(void *param);
-void	move_player(t_game *game, float dx, float dy, bool *redraw);
-void	norm_angle(float *angle);
-void	ray_caster(t_game *game, float angle, int i);
-void	draw_single_line(t_game *game, float dx, float dy, float distance);
-void	draw_v_strip(t_game *game, float distance, int i);
+void			init_game(t_game *game);
+void			draw_rays(t_game *game);
+void			handle_keystrokes(mlx_key_data_t data, void *param);
+void			update_keystrokes(void *param);
+void			move_player(t_game *game, float dx, float dy, bool *redraw);
+void			norm_angle(float *angle);
+void			ray_caster(t_game *game, float angle, int i);
+void			draw_single_line(t_game *game, float dx, float dy, float distance);
+void			draw_v_strip(t_game *game, float distance, int i, t_ray *ray);
+uint32_t		get_text_color(mlx_texture_t *texture, t_ray *ray, int j);
+mlx_texture_t	*check_side(t_textures *texture, float dx, float dy, int side);
 
 #endif
