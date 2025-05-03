@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/03 21:00:28 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:02:26 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,11 +172,7 @@ void	draw_v_strip(t_game *game, float distance ,int i, t_ray *ray)
 		if (j < w_start)
 			mlx_put_pixel(game->image, i, j, game->celing_color.hex);
 		else if (j <= w_end)
-		{
-			ray->text_x = ray->wall_x *  ray->wall_texture->width;
-			ray->text_y = ((j - w_start) / TILE_SIZE) * ray->wall_texture->height;
 			mlx_put_pixel(game->image, i, j, get_text_color(ray->wall_texture, ray, j));
-		}
 		else
 			mlx_put_pixel(game->image, i, j, game->floor_color.hex); // FLOOR
 	}

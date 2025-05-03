@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/03 20:56:01 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:09:40 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 # define ONE_DEGREE 0.01745329f
 # define TILE_SIZE 64
 # define FOV (HALF_PI / 3)
-# define ROT_SPEED 0.01f
-# define MOV_SPEED 0.9f
+# define ROT_SPEED 0.015f
+# define MOV_SPEED 1.4f
 
 typedef struct s_player
 {
