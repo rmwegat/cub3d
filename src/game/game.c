@@ -6,7 +6,7 @@
 /*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/03 20:55:50 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:00:28 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,14 @@ void	draw_v_strip(t_game *game, float distance ,int i, t_ray *ray)
 	
 	p_height = TILE_SIZE/2; // PLAYER HEIGHT, NORMALLY HALF THE SCREEN
 	d = (WIDTH / 2) / tan(FOV/2); // ONE OF THE MOST IMPORTANT FORMULAS IN RAY CASTING, IT IS THE BASE OF DECIDING HOW TALL SHOULD A WALL SLICE BE DEPENDING ON THE RAY DISTANCE
-	w_start = HEIGHT/2 - ((d * p_height) / distance);
-	w_end = HEIGHT/2 + ((d * p_height) / distance);
+	w_start = HEIGHT/2 - ((d * p_height) / distance); // FORMULA FOR CEILING PIXELS
+	w_end = HEIGHT/2 + ((d * p_height) / distance); // FORMULA FOR WALL PIXELS
 	ray->wall_height = w_end - w_start;
 	for (int j = 0; j < HEIGHT; ++j)
 	{
-		if (j < w_start) // FORMULA FOR CEILING PIXELS
+		if (j < w_start)
 			mlx_put_pixel(game->image, i, j, game->celing_color.hex);
-		else if (j <= w_end) // FORMULA FOR WALL PIXELS
+		else if (j <= w_end)
 		{
 			ray->text_x = ray->wall_x *  ray->wall_texture->width;
 			ray->text_y = ((j - w_start) / TILE_SIZE) * ray->wall_texture->height;
