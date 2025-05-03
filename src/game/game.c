@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/02 17:35:38 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:05:17 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,10 @@ void	draw_v_strip(t_game *game, float distance ,int i)
 	for (int j = 0; j < HEIGHT; ++j)
 	{
 		if (j < HEIGHT/2 - ((d * p_height) / distance)) // FORMULA FOR CEILING PIXELS
-			mlx_put_pixel(game->image, i, j, 0xFF0000FF);
+			mlx_put_pixel(game->image, i, j, game->celing_color.hex);
 		else if (j <= HEIGHT/2 + ((d * p_height) / distance)) // FORMULA FOR WALL PIXELS
 			mlx_put_pixel(game->image, i, j, 0x00FF00FF);
 		else
-			mlx_put_pixel(game->image, i, j, 0x000000FF); // FLOOR
+			mlx_put_pixel(game->image, i, j, game->floor_color.hex); // FLOOR
 	}
 }

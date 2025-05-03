@@ -1,7 +1,7 @@
-NO /Users/temil-da/Documents/cub3d_github/textures/bluestone.png
-SO /Users/temil-da/Documents/cub3d_github/textures/bluestone.png
-WE /Users/temil-da/Documents/cub3d_github/textures/bluestone.png
-EA /Users/temil-da/Documents/cub3d_github/textures/bluestone.png
+NO textures/bluestone.png
+SO textures/bluestone.png
+WE textures/bluestone.png
+EA textures/bluestone.png
 
 F 220,100,0
 C 225,30,0
@@ -11,7 +11,7 @@ C 225,30,0
          1011000001110000000000001
          1001000000000000000000001
  111111111011000001110000000000001
- 000000000011000001111111111111111
+ 100000000011000001111110111111111
  11110111111111011100000010001
  11110111111111011101010010001
  11000000110101011100000010001

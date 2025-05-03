@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_config.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 16:34:33 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:13:18 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	parse_config(char *file, t_game *game)
 			continue;
 		}
 		if (ft_strncmp(line, "NO", 2) == 0)
-			game->textures.north = ft_strdup(skip_whitespace(line + 2));
+			game->textures.north_path = ft_strtrim(skip_whitespace(line + 2), "\n");
 		else if (ft_strncmp(line, "SO", 2) == 0)
-			game->textures.south = ft_strdup(skip_whitespace(line + 2));
+			game->textures.south_path = ft_strtrim(skip_whitespace(line + 2), "\n");
 		else if (ft_strncmp(line, "WE", 2) == 0)
-			game->textures.west = ft_strdup(skip_whitespace(line + 2));
+			game->textures.west_path = ft_strtrim(skip_whitespace(line + 2), "\n");
 		else if (ft_strncmp(line, "EA", 2) == 0)
-			game->textures.east = ft_strdup(skip_whitespace(line + 2));
+			game->textures.east_path = ft_strtrim(skip_whitespace(line + 2), "\n");
 		else if (ft_strncmp(line, "F", 1) == 0)
 			parse_color(skip_whitespace(line + 1), &game->floor_color);
 		else if (ft_strncmp(line, "C", 1) == 0)

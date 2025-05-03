@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 17:31:11 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:08:20 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ typedef struct s_player
 
 typedef struct s_textures
 {
-	char			*north;
-	char			*south;
-	char			*west;
-	char			*east;
-	mlx_texture_t	*north_text;
-	mlx_texture_t	*south_text;
-	mlx_texture_t	*west_text;
-	mlx_texture_t	*east_text;
+	char			*north_path;
+	char			*south_path;
+	char			*west_path;
+	char			*east_path;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
 }	t_textures;
 
 typedef struct s_colors
@@ -66,6 +66,7 @@ typedef struct s_colors
 	int	g;
 	int	b;
 	int	a;
+	u_int32_t	hex;
 }	t_colors;
 
 typedef struct s_game
