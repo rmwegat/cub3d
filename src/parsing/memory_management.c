@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:34:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 13:55:32 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/03 17:22:03 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	ft_free_textures(t_textures *textures)
 {
 	if (!textures)
 		return;
-	free(textures->north);
-	free(textures->south);
-	free(textures->west);
-	free(textures->east);
+	free(textures->north_path);
+	free(textures->south_path);
+	free(textures->west_path);
+	free(textures->east_path);
 }
 
 void	ft_free_game(t_game *game)
@@ -51,21 +51,16 @@ int	ft_alloc_game(t_game **game)
     *game = malloc(sizeof(t_game));
     if (!*game)
         return (perror("Error: Failed to allocate t_game structure!"), 1);
-
-    // Initialize all members to NULL or default values
     (*game)->map = NULL;
-    (*game)->textures.north = NULL;
-    (*game)->textures.south = NULL;
-    (*game)->textures.west = NULL;
-    (*game)->textures.east = NULL;
+    (*game)->textures.north_path = NULL;
+    (*game)->textures.south_path = NULL;
+    (*game)->textures.west_path = NULL;
+    (*game)->textures.east_path = NULL;
     (*game)->image = NULL;
     (*game)->mlx = NULL;
-
-    // Allocate player
     (*game)->player = malloc(sizeof(t_player));
     if (!(*game)->player)
         return (perror("Error: Failed to allocate t_player structure!"), 1);
-
     (*game)->player->x = 0;
     (*game)->player->y = 0;
     (*game)->player->angle = 0;

@@ -14,10 +14,10 @@
 
 void print_debug(t_game *game)
 {
-	ft_printf("North Texture: %s", game->textures.north);
-	ft_printf("South Texture: %s", game->textures.south);
-	ft_printf("West Texture: %s", game->textures.west);
-	ft_printf("East Texture: %s\n", game->textures.east);
+	ft_printf("North Texture Path: %s\n", game->textures.north_path);
+	ft_printf("South Texture Path: %s\n", game->textures.south_path);
+	ft_printf("West Texture Path: %s\n", game->textures.west_path);
+	ft_printf("East Texture Path: %s\n", game->textures.east_path);
 	ft_printf("Ceiling Color: R=%d, G=%d, B=%d, A=%d\n",
 		game->celing_color.r, game->celing_color.g, game->celing_color.b, game->celing_color.a);
 	ft_printf("Floor Color: R=%d, G=%d, B=%d, A=%d\n",
@@ -32,10 +32,10 @@ void print_debug(t_game *game)
 			else
 				ft_printf("%c", game->map[i][j]);
 		}
+		ft_printf("\n");
 	}
-	ft_printf("\n");
 	ft_printf("Starting Direction: %c\n", game->starting_direction);
-	printf("Player Position: X=%.2f, Y=%.2f\n",game->player->x, game->player->y);
+	printf("Player Position: X=%.2f, Y=%.2f\n", game->player->x, game->player->y);
 	printf("Player Angle: %.2f\n", game->player->angle);
 }
 
