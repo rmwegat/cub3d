@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/02 13:39:54 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/03 16:41:38 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_colors
 	int	g;
 	int	b;
 	int	a;
+	u_int32_t	hex;
 }	t_colors;
 
 typedef struct s_game
@@ -83,7 +84,6 @@ typedef struct s_game
 	t_colors	celing_color;
 	t_colors	floor_color;
 	char		starting_direction;
-	bool		keys[348];
 }	t_game;
 
 // Parsing

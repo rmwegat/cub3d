@@ -6,12 +6,17 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:22:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/04/30 18:39:28 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/03 16:41:20 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+u_int32_t get_hex(t_colors *rgba)
+{
+	return ((u_int32_t)rgba->r << 24 | \
+	(u_int32_t)rgba->g << 16 | (u_int32_t)rgba->b << 8 | 255);
+}
 int	parse_color(char *color_str, t_colors *color)
 {
 	char	**split;
@@ -27,5 +32,6 @@ int	parse_color(char *color_str, t_colors *color)
 	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
 		|| color->b < 0 || color->b > 255)
 		return (perror("Error: RGB 0-255!"), 1);
+	color->hex = get_hex(color);
 	return (0);
 }
