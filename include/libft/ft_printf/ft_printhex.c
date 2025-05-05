@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 19:56:33 by rwegat            #+#    #+#             */
-/*   Updated: 2024/03/22 20:39:58 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:42:37 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void	ft_printhex(unsigned int nbr, int *len, const char s)
 {
-	if (nbr < 0)
-	{
-		ft_printchar('-', len);
-		nbr = nbr * (-1);
-	}
 	if (nbr >= 16)
 	{
 		ft_printhex(nbr / 16, len, s);

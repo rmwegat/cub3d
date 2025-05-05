@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:00:09 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/03 21:02:26 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:50:30 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	ray_caster(t_game *game, float angle, int i)
 	float	side_dist_y;
 	float	hit_point;
 
+	ray.side = 0;
+	ray.distance = 0;
 	dx = cos(angle);
 	dy = sin(angle);
 	ray.map_x = (int)(game->player->x / TILE_SIZE);
