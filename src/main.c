@@ -42,6 +42,12 @@
 // 	printf("Player Angle: %.2f\n", game->player->angle);
 // }
 
+void	ft_leaks(void)
+{
+	system("leaks cub3D");
+}
+
+//atexit(ft_leaks);
 int	main(int argc, char **argv)
 {
 	t_game	*game;

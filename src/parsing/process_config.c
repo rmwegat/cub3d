@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 15:48:23 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/05 19:51:14 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	parse_config(char *file, t_game *game)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (perror("Error: Failed to open config file!"), 1);
-	if (ft_alloc_map(&game->map))
-		return (close(fd), 1);
 	while ((line = get_next_line(fd)))
 	{
 		if (ft_strlen(line) == 0)
