@@ -40,7 +40,7 @@ endif
 all: MLX42 libft $(NAME)
 
 $(NAME): $(OBJS) MLX42 libft
-	@$(CC) $(OBJS) $(MLXFLAGS) $(CFLAGS) $(MLXINCLUDE) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(MLX_FLAGS) $(CFLAGS) $(MLXINCLUDE) $(LIBFT) -o $(NAME)
 	@echo "\033[1;32m ✅ [$(NAME) created]\033[0m"
 
 $(OBJS_DIR)/%.o: %.c

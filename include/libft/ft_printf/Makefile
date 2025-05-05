@@ -6,7 +6,7 @@
 #    By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/22 20:37:01 by rwegat            #+#    #+#              #
-#    Updated: 2024/03/22 20:38:35 by rwegat           ###   ########.fr        #
+#    Updated: 2025/05/05 15:28:30 by rwegat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ clean:
 		rm -f $(OBJS)
 
 fclean: clean
-		rm -f $(NAME)
+		rm -f $(NAME) __.SYMDEF\ SORTED
 
 re: fclean all
 
