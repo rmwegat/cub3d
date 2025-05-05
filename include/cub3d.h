@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/03 21:09:40 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:59:41 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 # define WIDTH 1024
 # define HEIGHT 768
 # define PI 3.14159265f
-# define HALF_PI (PI / 2)
+# define HALF_PI 1.57079637f
 # define TWO_PI 6.28318530f
 # define ONE_DEGREE 0.01745329f
 # define TILE_SIZE 64
-# define FOV (HALF_PI / 3)
+# define FOV 0.52359879f
 # define ROT_SPEED 0.015f
 # define MOV_SPEED 1.4f
 
@@ -61,10 +61,10 @@ typedef struct s_textures
 
 typedef struct s_colors
 {
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-	uint8_t	a;
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
+	uint8_t		a;
 	u_int32_t	hex;
 }	t_colors;
 
@@ -81,7 +81,7 @@ typedef struct s_game
 	char		starting_direction;
 }	t_game;
 
-typedef	struct s_ray
+typedef struct s_ray
 {
 	float			distance;
 	int				map_x;
@@ -94,31 +94,28 @@ typedef	struct s_ray
 	mlx_texture_t	*wall_texture;
 }	t_ray;
 
-
 // Parsing
-void		extract_map(char *file, t_game *game);
-int			check_input(char *argv, t_game *game);
-int			parse_config(char *file, t_game *game);
-int			parse_color(char *color_str, t_colors *color);
-u_int32_t	get_hex(t_colors *rgba);
+void			extract_map(char *file, t_game *game);
+int				check_input(char *argv, t_game *game);
+int				parse_config(char *file, t_game *game);
+int				parse_color(char *color_str, t_colors *color);
+u_int32_t		get_hex(t_colors *rgba);
 
 // Initialization
-void	init(t_game *game);
-char	**map_to_array(char *file);
-char	**config_to_array(char *file);
+void			init(t_game *game);
+char			**map_to_array(char *file);
+char			**config_to_array(char *file);
 
 // Memory
-int		ft_alloc_game(t_game **game);
-int		ft_alloc_map(char ***map);
-void	ft_free_map(char **map);
-void	ft_free_textures(t_textures *textures);
-void	ft_free_game(t_game *game);
+int				ft_alloc_game(t_game **game);
+int				ft_alloc_map(char ***map);
+void			ft_free_map(char **map);
+void			ft_free_textures(t_textures *textures);
+void			ft_free_game(t_game *game);
 
 // Texture handling
-int		check_wall_textures(t_game *game);
-int		load_textures(t_game *game);
-
-
+int				check_wall_textures(t_game *game);
+int				load_textures(t_game *game);
 
 // game
 void			init_game(t_game *game);
@@ -128,7 +125,8 @@ void			update_keystrokes(void *param);
 void			move_player(t_game *game, float dx, float dy, bool *redraw);
 void			norm_angle(float *angle);
 void			ray_caster(t_game *game, float angle, int i);
-void			draw_single_line(t_game *game, float dx, float dy, float distance);
+void			draw_single_line(t_game *game, \
+				float dx, float dy, float distance);
 void			draw_v_strip(t_game *game, float distance, int i, t_ray *ray);
 uint32_t		get_text_color(mlx_texture_t *texture, t_ray *ray, int j);
 mlx_texture_t	*check_side(t_textures *texture, float dx, float dy, int side);

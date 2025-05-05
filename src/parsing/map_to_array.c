@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/03 17:22:31 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:46:29 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	is_valid_map_line(char *line)
 		return (0);
 	while (line[j])
 	{
-		if (line[j] != '1' && line[j] != '0' &&
-			line[j] != 'N' && line[j] != 'S' &&
-			line[j] != 'E' && line[j] != 'W' &&
+		if (line[j] != '1' && line[j] != '0' && \
+			line[j] != 'N' && line[j] != 'S' && \
+			line[j] != 'E' && line[j] != 'W' && \
 			line[j] != ' ' && line[j] != '\n')
 			return (0);
 		j++;
@@ -46,6 +46,7 @@ int	is_end_of_map_line(char *line)
 	}
 	return (1);
 }
+
 void	read_map_lines(int fd, t_game *game, int *is_map_started)
 {
 	char	*line;
@@ -56,7 +57,6 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 	{
 		if (!(*is_map_started) && is_valid_map_line(line))
 			*is_map_started = 1;
-
 		if (*is_map_started)
 		{
 			game->map[i] = ft_strdup(line);
@@ -67,7 +67,7 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 			{
 				free(line);
 				i++;
-				break;
+				break ;
 			}
 			free(line);
 			i++;

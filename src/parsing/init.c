@@ -17,14 +17,14 @@ void	ft_path_check(char **map, int x, int y)
 	if (y < 0 || map[y] == NULL || x < 0 || \
 		map[y][x] == '\0' || map[y][x] == '\n')
 	{
-		ft_printf("Error: Map is not enclosed by walls!\n");
+		perror("Error: Map is not enclosed by walls!\n");
 		exit(1);
 	}
 	if (map[y][x] == '1')
-		return;
+		return ;
 	if (map[y][x] == ' ')
 	{
-		ft_printf("Error: Map is not enclosed by walls!\n");
+		perror("Error: Map is not enclosed by walls!\n");
 		exit(1);
 	}
 	if (map[y][x] == '0')
@@ -39,8 +39,8 @@ void	ft_path_check(char **map, int x, int y)
 
 int	is_map_valid(char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i])
@@ -60,9 +60,9 @@ int	is_map_valid(char **map)
 
 int	init_player(t_game *game)
 {
-	int i;
-	int j;
-	int player_count;
+	int	i;
+	int	j;
+	int	player_count;
 
 	player_count = 0;
 	i = 0;
@@ -86,6 +86,7 @@ int	init_player(t_game *game)
 	}
 	return (player_count);
 }
+
 char	**copy_map(char **map)
 {
 	int		i;
@@ -120,14 +121,14 @@ void	init(t_game *game)
 	char	**map_copy;
 
 	if (!game)
-		return;
+		return ;
 	if (init_player(game) != 1)
 	{
 		ft_printf("Error: Invalid amount of players found!\n");
 		exit(1);
 	}
 	if (game->starting_direction == 'N')
-		game->player->angle =  3 * PI / 2;
+		game->player->angle = 3 * PI / 2;
 	else if (game->starting_direction == 'E')
 		game->player->angle = 0;
 	else if (game->starting_direction == 'S')
