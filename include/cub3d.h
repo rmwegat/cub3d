@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 15:59:41 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/05 20:39:00 by temil-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define TWO_PI 6.28318530f
 # define ONE_DEGREE 0.01745329f
 # define TILE_SIZE 64
-# define FOV 0.52359879f
+# define FOV 1.04719755f
 # define ROT_SPEED 0.015f
 # define MOV_SPEED 1.4f
 
@@ -84,6 +84,12 @@ typedef struct s_game
 typedef struct s_ray
 {
 	float			distance;
+	float			dx;
+	float			dy;
+	float			delta_x;
+	float			delta_y;
+	int				step_x;
+	int				step_y;
 	int				map_x;
 	int				map_y;
 	int				side;
@@ -125,10 +131,12 @@ void			update_keystrokes(void *param);
 void			move_player(t_game *game, float dx, float dy, bool *redraw);
 void			norm_angle(float *angle);
 void			ray_caster(t_game *game, float angle, int i);
-void			draw_single_line(t_game *game, \
-				float dx, float dy, float distance);
 void			draw_v_strip(t_game *game, float distance, int i, t_ray *ray);
-uint32_t		get_text_color(mlx_texture_t *texture, t_ray *ray, int j);
+uint32_t		get_text_color(t_ray *ray, int j);
 mlx_texture_t	*check_side(t_textures *texture, float dx, float dy, int side);
+void			get_dir_side_dist(t_ray *ray, float *sx, float *sy, t_game *game);
+void			dda_loop(t_game *game, t_ray *ray, float *side_x, float *side_y);
+void			handle_rotation(t_game *game, bool *redraw);
+
 
 #endif

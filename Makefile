@@ -14,6 +14,9 @@ SRCS = map_to_array.c \
 	memory_management.c \
 	textures.c \
 	game.c \
+	color_extractor.c \
+	player_movement.c \
+	ray_caster.c \
 
 OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
