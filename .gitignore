@@ -1,4 +1,5 @@
 .o
 .a
-cub3d
+cub3D
 /include/MLX42/
+objs/
