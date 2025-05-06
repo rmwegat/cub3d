@@ -19,7 +19,7 @@ int	load_textures(t_game *game)
 	game->textures.east_texture = mlx_load_png(game->textures.east_path);
 	game->textures.west_texture = mlx_load_png(game->textures.west_path);
 	if (!game->textures.east_texture || !game->textures.north_texture || \
-		!game->textures.south_texture || !game->textures.west_texture)
+!game->textures.south_texture || !game->textures.west_texture)
 	{
 		perror("Error: Failed to load one or more wall textures!\n");
 		return (1);

@@ -50,8 +50,7 @@
 int	main(int argc, char **argv)
 {
 	t_game	*game;
-	
-	// atexit(ft_leaks);
+
 	if (argc != 2)
 		return (perror("Usage: ./cub3d <map_file>"), 1);
 	if (ft_alloc_game(&game))

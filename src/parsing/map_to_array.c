@@ -24,9 +24,9 @@ int	is_valid_map_line(char *line)
 	while (line[j])
 	{
 		if (line[j] != '1' && line[j] != '0' && \
-			line[j] != 'N' && line[j] != 'S' && \
-			line[j] != 'E' && line[j] != 'W' && \
-			line[j] != ' ' && line[j] != '\n')
+line[j] != 'N' && line[j] != 'S' && \
+line[j] != 'E' && line[j] != 'W' && \
+line[j] != ' ' && line[j] != '\n')
 			return (0);
 		j++;
 	}

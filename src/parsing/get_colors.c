@@ -15,7 +15,7 @@
 u_int32_t	get_hex(t_colors *rgba)
 {
 	return ((u_int32_t)rgba->r << 24 | \
-	(u_int32_t)rgba->g << 16 | (u_int32_t)rgba->b << 8 | 255);
+(u_int32_t)rgba->g << 16 | (u_int32_t)rgba->b << 8 | 255);
 }
 
 int	atounit8(const char *str, uint8_t *result)
@@ -37,7 +37,7 @@ int	parse_color(char *color_str, t_colors *color)
 	if (!split || !split[0] || !split[1] || !split[2] || split[3])
 		return (ft_free_map(&split), perror("Error: Invalid RGB format!"), 1);
 	if (atounit8(split[0], &color->r) || atounit8(split[1], &color->g) \
-	|| atounit8(split[2], &color->b))
+|| atounit8(split[2], &color->b))
 		return (ft_free_map(&split), 1);
 	color->a = 255;
 	ft_free_map(&split);

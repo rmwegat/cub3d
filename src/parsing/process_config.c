@@ -106,8 +106,8 @@ int	parse_config(char *file, t_game *game)
 		else
 		{
 			if (parse_no_so_textures(line, game, &config) \
-				|| parse_we_ea_textures(line, game, &config) \
-				|| parse_colors(line, game, &config))
+|| parse_we_ea_textures(line, game, &config) \
+|| parse_colors(line, game, &config))
 			{
 				free(line);
 				close(fd);

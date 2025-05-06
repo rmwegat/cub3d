@@ -15,7 +15,7 @@
 void	ft_path_check(char **map, int x, int y)
 {
 	if (y < 0 || map[y] == NULL || x < 0 || \
-		map[y][x] == '\0' || map[y][x] == '\n')
+map[y][x] == '\0' || map[y][x] == '\n')
 	{
 		perror("Error: Map is not enclosed by walls!\n");
 		exit(1);
@@ -139,7 +139,7 @@ void	init(t_game *game)
 	game->player->dy = sin(game->player->angle);
 	map_copy = copy_map(game->map);
 	ft_path_check(map_copy, (int)(game->player->x / TILE_SIZE), \
-	(int)(game->player->y / TILE_SIZE));
+(int)(game->player->y / TILE_SIZE));
 	ft_free_map(&map_copy);
 	is_map_valid(game->map);
 }
