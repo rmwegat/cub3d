@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:34:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 15:47:24 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:37:35 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,5 @@ int	ft_alloc_game(t_game **game)
 	(*game)->player->x = 0;
 	(*game)->player->y = 0;
 	(*game)->player->angle = 0;
-	return (0);
-}
-
-int	ft_alloc_map(char ***map)
-{
-	*map = malloc(sizeof(char *) * 1024);
-	if (!*map)
-		return (perror("Error: Failed to allocate map!"), 1);
 	return (0);
 }

@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Ofast -o3 -fsanitize=address,undefined -g
+CFLAGS = -Wall -Wextra -Werror -Ofast -o3 -g #-fsanitize=address,undefined
 
 VPATH = src:src/parsing:src/game
 

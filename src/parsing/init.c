@@ -50,7 +50,7 @@ int	is_map_valid(char **map)
 		{
 			if (map[i][j] != '1' && map[i][j] != '0' &&
 				map[i][j] != ' ' && map[i][j] != '\n')
-				return (ft_printf("Error: Invalid character in map!\n"));
+				return (perror("Error: Invalid character in map!\n"), 1);
 			j++;
 		}
 		i++;

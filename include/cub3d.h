@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 13:33:42 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:14:39 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 # include "MLX42/include/MLX42/MLX42.h"
 
+# define MAX_MAP_ROWS 50
+# define MAX_MAP_COLS 50
 # define WIDTH 1024
 # define HEIGHT 768
 # define PI 3.14159265f
@@ -121,7 +123,6 @@ char			**config_to_array(char *file);
 
 // Memory
 int				ft_alloc_game(t_game **game);
-int				ft_alloc_map(char ***map);
 void			ft_free_map(char **map);
 void			ft_free_textures(t_textures *textures);
 void			ft_free_game(t_game *game);
