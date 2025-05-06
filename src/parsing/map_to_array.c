@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 19:47:53 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 20:08:35 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ void	handle_map_line(char *line, t_game *game, int *is_map_started, int *i)
 		*is_map_started = 1;
 	if (*is_map_started)
 	{
-		if ((int)ft_strlen(line) > MAX_MAP_COLS)
-		{
-			free(line);
-			return (ft_free_map(&game->map),
-				perror("Error: Map exceeds maximum column limit!"));
-		}
 		game->map[*i] = ft_strdup(line);
 		if (!game->map[*i])
 		{
@@ -59,12 +53,6 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (i >= MAX_MAP_ROWS)
-		{
-			free(line);
-			return (close(fd), ft_free_map(&game->map),
-				perror("Error: Map exceeds maximum row limit!"));
-		}
 		handle_map_line(line, game, is_map_started, &i);
 		line = get_next_line(fd);
 	}

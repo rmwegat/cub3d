@@ -12,12 +12,6 @@
 
 #include "../include/cub3d.h"
 
-void	ft_leaks(void)
-{
-	system("leaks cub3D");
-}
-
-//atexit(ft_leaks);
 int	main(int argc, char **argv)
 {
 	t_game	*game;
