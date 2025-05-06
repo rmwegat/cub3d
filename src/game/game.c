@@ -19,8 +19,8 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 	if (!load_textures(game))
 		return ;
-	ft_free_game(game);
-	exit(1);
+	ft_free_game(game, false);
+	exit(EXIT_FAILURE);
 }
 
 void	draw_rays(t_game *game)

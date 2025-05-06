@@ -12,19 +12,20 @@
 
 #include "../../include/cub3d.h"
 
-void	ft_free_map(char **map)
+void	ft_free_map(char ***map)
 {
 	int	i;
 
-	if (!map)
+	if (!map || !*map)
 		return ;
 	i = 0;
-	while (map[i])
+	while ((*map)[i])
 	{
-		free(map[i]);
+		free((*map)[i]);
 		i++;
 	}
-	free(map);
+	free(*map);
+	*map = NULL;
 }
 
 void	ft_free_textures(t_textures *textures)
@@ -35,15 +36,43 @@ void	ft_free_textures(t_textures *textures)
 	free(textures->south_path);
 	free(textures->west_path);
 	free(textures->east_path);
+	if (textures->east_texture)
+		mlx_delete_texture(textures->east_texture);
+	if (textures->north_texture)
+		mlx_delete_texture(textures->north_texture);
+	if (textures->south_texture)
+		mlx_delete_texture(textures->south_texture);
+	if (textures->west_texture)
+		mlx_delete_texture(textures->west_texture);
+	textures->south_path = NULL;
+	textures->north_path = NULL;
+	textures->east_path = NULL;
+	textures->west_path = NULL;
+	textures->east_texture = NULL;
+	textures->north_texture = NULL;
+	textures->south_texture = NULL;
+	textures->west_texture = NULL;
 }
 
-void	ft_free_game(t_game *game)
+void	ft_free_game(t_game *game, bool terminate)
 {
 	if (!game)
 		return ;
-	ft_free_map(game->map);
+	ft_free_map(&game->map);
 	ft_free_textures(&game->textures);
+	if (game->mlx)
+	{
+		if (game->image)
+			mlx_delete_image(game->mlx, game->image);
+		if (game->mlx->window)
+			mlx_close_window(game->mlx);
+		mlx_terminate(game->mlx);
+	}
+	if (game->player)
+		free(game->player);
 	free(game);
+	if (terminate)
+		exit(EXIT_SUCCESS);
 }
 
 int	ft_alloc_game(t_game **game)
@@ -64,13 +93,5 @@ int	ft_alloc_game(t_game **game)
 	(*game)->player->x = 0;
 	(*game)->player->y = 0;
 	(*game)->player->angle = 0;
-	return (0);
-}
-
-int	ft_alloc_map(char ***map)
-{
-	*map = malloc(sizeof(char *) * 1024);
-	if (!*map)
-		return (perror("Error: Failed to allocate map!"), 1);
 	return (0);
 }

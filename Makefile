@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Ofast -o3 -fsanitize=address,undefined -g
+CFLAGS = -Wall -Wextra -Werror -Ofast -o3 #-fsanitize=address,undefined -g
 
 VPATH = src:src/parsing:src/game
 
@@ -21,7 +21,7 @@ SRCS = map_to_array.c \
 OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
-MLX_LINUX_FLAGS	= -ldl -pthread -lm
+MLX_LINUX_FLAGS	= -lglfw -ldl -lGL -lm -pthread
 MLX_MAC_FLAGS	= -framework Cocoa -framework OpenGL -framework IOKit
 MLXINCLUDE = include/MLX42/build/libmlx42.a -Iinclude -lglfw
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
@@ -42,7 +42,7 @@ endif
 all: MLX42 libft $(NAME)
 
 $(NAME): $(OBJS) MLX42 libft
-	@$(CC) $(OBJS) $(MLX_FLAGS) $(CFLAGS) $(MLXINCLUDE) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(CFLAGS) $(MLXINCLUDE) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
 	@echo "\033[1;32m ✅ [$(NAME) created]\033[0m"
 
 $(OBJS_DIR)/%.o: %.c

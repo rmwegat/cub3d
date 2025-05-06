@@ -35,12 +35,12 @@ int	parse_color(char *color_str, t_colors *color)
 
 	split = ft_split(color_str, ',');
 	if (!split || !split[0] || !split[1] || !split[2] || split[3])
-		return (ft_free_map(split), perror("Error: Invalid RGB format!"), 1);
+		return (ft_free_map(&split), perror("Error: Invalid RGB format!"), 1);
 	if (atounit8(split[0], &color->r) || atounit8(split[1], &color->g) \
 	|| atounit8(split[2], &color->b))
-		return (ft_free_map(split), 1);
+		return (ft_free_map(&split), 1);
 	color->a = 255;
-	ft_free_map(split);
+	ft_free_map(&split);
 	color->hex = get_hex(color);
 	return (0);
 }

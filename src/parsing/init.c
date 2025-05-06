@@ -140,6 +140,6 @@ void	init(t_game *game)
 	map_copy = copy_map(game->map);
 	ft_path_check(map_copy, (int)(game->player->x / TILE_SIZE), \
 	(int)(game->player->y / TILE_SIZE));
-	ft_free_map(map_copy);
+	ft_free_map(&map_copy);
 	is_map_valid(game->map);
 }

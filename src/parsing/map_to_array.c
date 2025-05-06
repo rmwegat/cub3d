@@ -61,7 +61,7 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 		{
 			game->map[i] = ft_strdup(line);
 			if (!game->map[i])
-				return (close(fd), ft_free_map(game->map),
+				return (close(fd), ft_free_map(&game->map),
 					perror("Error: Map line allocation failed!"));
 			if (i > 0 && is_end_of_map_line(line))
 			{

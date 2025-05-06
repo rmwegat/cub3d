@@ -122,9 +122,11 @@ char			**config_to_array(char *file);
 // Memory
 int				ft_alloc_game(t_game **game);
 int				ft_alloc_map(char ***map);
-void			ft_free_map(char **map);
+void			ft_free_map(char ***map);
 void			ft_free_textures(t_textures *textures);
-void			ft_free_game(t_game *game);
+void			ft_free_game(t_game *game, bool terminate);
+void			close_hook(void *param);
+
 
 // Texture handling
 int				check_wall_textures(t_game *game);
