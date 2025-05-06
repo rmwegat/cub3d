@@ -22,9 +22,8 @@ OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 MLX_LINUX_FLAGS	= -ldl -pthread -lm
-MLX_MAC_FLAGS	= -framework Cocoa -framework OpenGL -framework IOKit
-
-MLXINCLUDE = include/MLX42/build/libmlx42.a -Iinclude -lglfw
+MLX_MAC_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -L/opt/homebrew/opt/glfw/lib -lglfw
+MLXINCLUDE = include/MLX42/build/libmlx42.a -Iinclude -I/opt/homebrew/opt/glfw/include
 MLX_REPO_URL = https://github.com/codam-coding-college/MLX42.git
 
 LIBFT_DIR = include/libft

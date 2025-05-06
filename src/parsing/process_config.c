@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 19:51:14 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 11:22:11 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,38 @@ char	*skip_whitespace(char *str)
 		str++;
 	return (str);
 }
+int	parse_textures_and_colors(char *line, t_game *game, \
+	int *floors, int *celings, int *texture_paths)
+{
+	char	*trimmed;
+
+	trimmed = skip_whitespace(line + 2);
+	if (!ft_strncmp(line, "NO", 2) && ++(*texture_paths))
+		game->textures.north_path = ft_strtrim(trimmed, "\n");
+	else if (!ft_strncmp(line, "SO", 2) && ++(*texture_paths))
+		game->textures.south_path = ft_strtrim(trimmed, "\n");
+	else if (!ft_strncmp(line, "WE", 2) && ++(*texture_paths))
+		game->textures.west_path = ft_strtrim(trimmed, "\n");
+	else if (!ft_strncmp(line, "EA", 2) && ++(*texture_paths))
+		game->textures.east_path = ft_strtrim(trimmed, "\n");
+	else if (!ft_strncmp(line, "F", 1) && ++(*floors))
+		parse_color(skip_whitespace(line + 1), &game->floor_color);
+	else if (!ft_strncmp(line, "C", 1) && ++(*celings))
+		parse_color(skip_whitespace(line + 1), &game->celing_color);
+	return (0);
+}
 
 int	parse_config(char *file, t_game *game)
 {
 	int		fd;
 	char	*line;
+	int		fc;
+	int		cc;
+	int		tc;
 
+	cc = 0;
+	fc = 0;
+	tc = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (perror("Error: Failed to open config file!"), 1);
@@ -31,24 +57,12 @@ int	parse_config(char *file, t_game *game)
 	{
 		if (ft_strlen(line) == 0)
 			free(line);
-		if (ft_strncmp(line, "NO", 2) == 0)
-			game->textures.north_path = \
-			ft_strtrim(skip_whitespace(line + 2), "\n");
-		else if (ft_strncmp(line, "SO", 2) == 0)
-			game->textures.south_path = \
-			ft_strtrim(skip_whitespace(line + 2), "\n");
-		else if (ft_strncmp(line, "WE", 2) == 0)
-			game->textures.west_path = \
-			ft_strtrim(skip_whitespace(line + 2), "\n");
-		else if (ft_strncmp(line, "EA", 2) == 0)
-			game->textures.east_path = \
-			ft_strtrim(skip_whitespace(line + 2), "\n");
-		else if (ft_strncmp(line, "F", 1) == 0)
-			parse_color(skip_whitespace(line + 1), &game->floor_color);
-		else if (ft_strncmp(line, "C", 1) == 0)
-			parse_color(skip_whitespace(line + 1), &game->celing_color);
+		else
+			parse_textures_and_colors(line, game, &fc, &cc, &tc);
 		free(line);
 	}
 	close(fd);
+	if (fc != 1 || cc != 1 || tc != 4)
+		return (perror("Error: Missing or invalid configuration!\n"), 1);
 	return (extract_map(file, game), 0);
 }

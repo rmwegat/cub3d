@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:22:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 15:43:11 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 01:59:29 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int	parse_color(char *color_str, t_colors *color)
 	color->r = ft_atoi(split[0]);
 	color->g = ft_atoi(split[1]);
 	color->b = ft_atoi(split[2]);
+	if (color->r < 0 || color->r > 255 || color->g < 0 \
+		|| color->g > 255 || color->b < 0 || color->b > 255)
+		return (ft_free_map(split), perror("Error: RGB Values 0 - 255!"), 1);
 	color->a = 255;
 	ft_free_map(split);
 	color->hex = get_hex(color);

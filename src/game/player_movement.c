@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 20:46:15 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/05 20:47:42 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/06 01:47:13 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	update_keystrokes(void *param)
 	mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		handle_rotation(game, &redraw);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		exit (0);// TODO FREEING
+		mlx_close_window(game->mlx);
 	if (redraw)
 		draw_rays(game);
 }
