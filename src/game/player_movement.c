@@ -32,10 +32,10 @@ void	update_keystrokes(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		move_player(game, -dy * MOV_SPEED, dx * MOV_SPEED, &redraw);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) || \
-	mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		handle_rotation(game, &redraw);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx);
+		ft_free_game(game, true);
 	if (redraw)
 		draw_rays(game);
 }

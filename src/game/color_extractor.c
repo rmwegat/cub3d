@@ -36,3 +36,11 @@ uint32_t	get_text_color(t_ray *ray, int j)
 	color.a = t->pixels[(ray->text_y * t->width + ray->text_x) * 4 + 3];
 	return (get_hex(&color));
 }
+
+void	close_hook(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *) param;
+	ft_free_game(game, true);
+}

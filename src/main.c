@@ -42,10 +42,10 @@
 // 	printf("Player Angle: %.2f\n", game->player->angle);
 // }
 
-void	ft_leaks(void)
-{
-	system("leaks cub3D");
-}
+// void	ft_leaks(void)
+// {
+// 	system("leaks cub3D");
+// }
 
 int	main(int argc, char **argv)
 {
@@ -57,12 +57,13 @@ int	main(int argc, char **argv)
 	if (ft_alloc_game(&game))
 		return (1);
 	if (parse_config(argv[1], game))
-		return (ft_free_game(game), 1);
+		return (ft_free_game(game, false), 1);
 	init(game);
 	init_game(game);
 	draw_rays(game);
 	mlx_loop_hook(game->mlx, &update_keystrokes, game);
+	mlx_close_hook(game->mlx, &close_hook, game);
 	mlx_loop(game->mlx);
-	ft_free_game(game);
+	ft_free_game(game, true);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 17:14:39 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:41:57 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,9 @@ char			**config_to_array(char *file);
 int				ft_alloc_game(t_game **game);
 void			ft_free_map(char **map);
 void			ft_free_textures(t_textures *textures);
-void			ft_free_game(t_game *game);
+void			ft_free_game(t_game *game, bool terminate);
+void			close_hook(void *param);
+
 
 // Texture handling
 int				check_wall_textures(t_game *game);
