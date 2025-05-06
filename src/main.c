@@ -47,9 +47,9 @@ void	ft_leaks(void)
 	system("leaks cub3D");
 }
 
+// atexit(ft_leaks);
 int	main(int argc, char **argv)
 {
-	atexit(ft_leaks);
 	t_game	*game;
 
 	if (argc != 2)

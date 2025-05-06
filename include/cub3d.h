@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: temil-da <temil-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 20:39:00 by temil-da         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:33:42 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ typedef struct s_textures
 	mlx_texture_t	*west_texture;
 	mlx_texture_t	*east_texture;
 }	t_textures;
+
+typedef struct s_config
+{
+	int	cc;
+	int	fc;
+	int	tc;
+}	t_config;
 
 typedef struct s_colors
 {
