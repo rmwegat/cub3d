@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:34:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 17:37:35 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:35:05 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_free_map(char ***map)
 	*map = NULL;
 }
 
-void	ft_free_textures(t_textures *textures)
+void	ft_free_textures(t_textures *textures, bool terminate)
 {
 	if (!textures)
 		return ;
@@ -36,14 +36,17 @@ void	ft_free_textures(t_textures *textures)
 	free(textures->south_path);
 	free(textures->west_path);
 	free(textures->east_path);
-	if (textures->east_texture)
-		mlx_delete_texture(textures->east_texture);
-	if (textures->north_texture)
-		mlx_delete_texture(textures->north_texture);
-	if (textures->south_texture)
-		mlx_delete_texture(textures->south_texture);
-	if (textures->west_texture)
-		mlx_delete_texture(textures->west_texture);
+	if (terminate)
+	{
+		if (textures->east_texture)
+			mlx_delete_texture(textures->east_texture);
+		if (textures->north_texture)
+			mlx_delete_texture(textures->north_texture);
+		if (textures->south_texture)
+			mlx_delete_texture(textures->south_texture);
+		if (textures->west_texture)
+			mlx_delete_texture(textures->west_texture);
+	}
 	textures->south_path = NULL;
 	textures->north_path = NULL;
 	textures->east_path = NULL;
@@ -59,7 +62,7 @@ void	ft_free_game(t_game *game, bool terminate)
 	if (!game)
 		return ;
 	ft_free_map(&game->map);
-	ft_free_textures(&game->textures);
+	ft_free_textures(&game->textures, terminate);
 	if (game->mlx)
 	{
 		if (game->image)
@@ -73,6 +76,7 @@ void	ft_free_game(t_game *game, bool terminate)
 	free(game);
 	if (terminate)
 		exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
 int	ft_alloc_game(t_game **game)

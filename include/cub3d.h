@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 17:41:57 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:45:14 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 
 # include "MLX42/include/MLX42/MLX42.h"
 
-# define MAX_MAP_ROWS 50
-# define MAX_MAP_COLS 50
+# define MAX_MAP_ROWS 100
+# define MAX_MAP_COLS 100
 # define WIDTH 1024
 # define HEIGHT 768
 # define PI 3.14159265f
@@ -110,11 +110,13 @@ typedef struct s_ray
 }	t_ray;
 
 // Parsing
+int				is_valid_map_line(char *line);
 void			extract_map(char *file, t_game *game);
 int				check_input(char *argv, t_game *game);
 int				parse_config(char *file, t_game *game);
 int				parse_color(char *color_str, t_colors *color);
 u_int32_t		get_hex(t_colors *rgba);
+char			*skip_whitespace(char *str);
 
 // Initialization
 void			init(t_game *game);
@@ -124,14 +126,17 @@ char			**config_to_array(char *file);
 // Memory
 int				ft_alloc_game(t_game **game);
 void			ft_free_map(char ***map);
-void			ft_free_textures(t_textures *textures);
+void			ft_free_textures(t_textures *textures, bool terminate);
 void			ft_free_game(t_game *game, bool terminate);
 void			close_hook(void *param);
-
 
 // Texture handling
 int				check_wall_textures(t_game *game);
 int				load_textures(t_game *game);
+int				parse_we_ea_textures(char *line, \
+				t_game *game, t_config *config);
+int				parse_no_so_textures(char *line, \
+				t_game *game, t_config *config);
 
 // game
 void			init_game(t_game *game);
@@ -143,10 +148,12 @@ void			norm_angle(float *angle);
 void			ray_caster(t_game *game, float angle, int i);
 void			draw_v_strip(t_game *game, float distance, int i, t_ray *ray);
 uint32_t		get_text_color(t_ray *ray, int j);
-mlx_texture_t	*check_side(t_textures *texture, float dx, float dy, int side);
-void			get_dir_side_dist(t_ray *ray, float *sx, float *sy, t_game *game);
-void			dda_loop(t_game *game, t_ray *ray, float *side_x, float *side_y);
+mlx_texture_t	*check_side(t_textures *texture, \
+				float dx, float dy, int side);
+void			get_dir_side_dist(t_ray *ray, float \
+				*sx, float *sy, t_game *game);
+void			dda_loop(t_game *game, t_ray *ray, \
+				float *side_x, float *side_y);
 void			handle_rotation(t_game *game, bool *redraw);
-
 
 #endif

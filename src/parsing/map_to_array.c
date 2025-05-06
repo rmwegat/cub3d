@@ -6,32 +6,11 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:10:22 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 17:39:36 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:47:53 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-int	is_valid_map_line(char *line)
-{
-	int	j;
-
-	j = 0;
-	while (line[j] == ' ')
-		j++;
-	if (line[j] != '1')
-		return (0);
-	while (line[j])
-	{
-		if (line[j] != '1' && line[j] != '0' && \
-line[j] != 'N' && line[j] != 'S' && \
-line[j] != 'E' && line[j] != 'W' && \
-line[j] != ' ' && line[j] != '\n')
-			return (0);
-		j++;
-	}
-	return (1);
-}
 
 int	is_end_of_map_line(char *line)
 {
@@ -45,6 +24,30 @@ int	is_end_of_map_line(char *line)
 		j++;
 	}
 	return (1);
+}
+
+void	handle_map_line(char *line, t_game *game, int *is_map_started, int *i)
+{
+	if (!(*is_map_started) && is_valid_map_line(line))
+		*is_map_started = 1;
+	if (*is_map_started)
+	{
+		if ((int)ft_strlen(line) > MAX_MAP_COLS)
+		{
+			free(line);
+			return (ft_free_map(&game->map),
+				perror("Error: Map exceeds maximum column limit!"));
+		}
+		game->map[*i] = ft_strdup(line);
+		if (!game->map[*i])
+		{
+			free(line);
+			return (ft_free_map(&game->map),
+				perror("Error: Map line allocation failed!"));
+		}
+		(*i)++;
+	}
+	free(line);
 }
 
 void	read_map_lines(int fd, t_game *game, int *is_map_started)
@@ -62,23 +65,7 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 			return (close(fd), ft_free_map(&game->map),
 				perror("Error: Map exceeds maximum row limit!"));
 		}
-		if (!(*is_map_started) && is_valid_map_line(line))
-			*is_map_started = 1;
-		if (*is_map_started)
-		{
-			if ((int)ft_strlen(line) > MAX_MAP_COLS)
-			{
-				free(line);
-				return (close(fd), ft_free_map(&game->map),
-					perror("Error: Map exceeds maximum column limit!"));
-			}
-			game->map[i] = ft_strdup(line);
-			if (!game->map[i])
-				return (close(fd), ft_free_map(&game->map),
-					perror("Error: Map line allocation failed!"));
-			i++;
-		}
-		free(line);
+		handle_map_line(line, game, is_map_started, &i);
 		line = get_next_line(fd);
 	}
 	game->map[i] = NULL;
@@ -94,11 +81,13 @@ int	count_map_rows(char *file)
 	if (fd < 0)
 		return (perror("Error: Failed to open config file!"), -1);
 	row_count = 0;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (ft_strlen(line) > 0 && is_valid_map_line(line))
 			row_count++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (row_count);

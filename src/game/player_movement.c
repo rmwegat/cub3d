@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 20:46:15 by temil-da          #+#    #+#             */
-/*   Updated: 2025/05/06 01:47:13 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:34:01 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	update_keystrokes(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		move_player(game, -dy * MOV_SPEED, dx * MOV_SPEED, &redraw);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) || \
-mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		handle_rotation(game, &redraw);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		ft_free_game(game, true);

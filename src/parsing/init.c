@@ -37,7 +37,7 @@ map[y][x] == '\0' || map[y][x] == '\n')
 	}
 }
 
-int	is_map_valid(char **map)
+int	is_map_valid(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -50,7 +50,10 @@ int	is_map_valid(char **map)
 		{
 			if (map[i][j] != '1' && map[i][j] != '0' &&
 				map[i][j] != ' ' && map[i][j] != '\n')
-				return (perror("Error: Invalid character in map!\n"), 1);
+			{
+				perror("Error: Invalid character in map!\n");
+				ft_free_game(game, false);
+			}
 			j++;
 		}
 		i++;
@@ -139,7 +142,7 @@ void	init(t_game *game)
 	game->player->dy = sin(game->player->angle);
 	map_copy = copy_map(game->map);
 	ft_path_check(map_copy, (int)(game->player->x / TILE_SIZE), \
-(int)(game->player->y / TILE_SIZE));
+	(int)(game->player->y / TILE_SIZE));
 	ft_free_map(&map_copy);
-	is_map_valid(game->map);
+	is_map_valid(game->map, game);
 }

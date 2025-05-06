@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 17:38:46 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 19:46:07 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,70 +19,31 @@ char	*skip_whitespace(char *str)
 	return (str);
 }
 
-int	parse_no_so_textures(char *line, t_game *game, t_config *config)
-{
-	char	*trimmed;
-	char	*new_path;
-
-	if (ft_strlen(line) < 3)
-		return (0);
-	trimmed = skip_whitespace(line + 2);
-	if (!trimmed || *trimmed == '\0')
-		return (perror("Error: Invalid texture path!"), 1);
-	if (!ft_strncmp(line, "NO", 2) && ++(config->tc))
-	{
-		new_path = ft_strtrim(trimmed, "\n");
-		if (!new_path)
-			return (perror("Error: Memory allocation failed!"), 1);
-		free(game->textures.north_path);
-		game->textures.north_path = new_path;
-	}
-	else if (!ft_strncmp(line, "SO", 2) && ++(config->tc))
-	{
-		new_path = ft_strtrim(trimmed, "\n");
-		if (!new_path)
-			return (perror("Error: Memory allocation failed!"), 1);
-		free(game->textures.south_path);
-		game->textures.south_path = new_path;
-	}
-	return (0);
-}
-
-int	parse_we_ea_textures(char *line, t_game *game, t_config *config)
-{
-	char	*trimmed;
-	char	*new_path;
-
-	if (ft_strlen(line) < 3)
-		return (0);
-	trimmed = skip_whitespace(line + 2);
-	if (!trimmed || *trimmed == '\0')
-		return (perror("Error: Invalid texture path!"), 1);
-	if (!ft_strncmp(line, "WE", 2) && ++(config->tc))
-	{
-		new_path = ft_strtrim(trimmed, "\n");
-		if (!new_path)
-			return (perror("Error: Memory allocation failed!"), 1);
-		free(game->textures.west_path);
-		game->textures.west_path = new_path;
-	}
-	else if (!ft_strncmp(line, "EA", 2) && ++(config->tc))
-	{
-		new_path = ft_strtrim(trimmed, "\n");
-		if (!new_path)
-			return (perror("Error: Memory allocation failed!"), 1);
-		free(game->textures.east_path);
-		game->textures.east_path = new_path;
-	}
-	return (0);
-}
-
 int	parse_colors(char *line, t_game *game, t_config *config)
 {
 	if (!ft_strncmp(line, "F", 1) && ++(config->fc))
 		parse_color(skip_whitespace(line + 1), &game->floor_color);
 	else if (!ft_strncmp(line, "C", 1) && ++(config->cc))
 		parse_color(skip_whitespace(line + 1), &game->celing_color);
+	return (0);
+}
+
+int	parse_config_line(char *line, t_game *game, t_config *config, int fd)
+{
+	if (ft_strlen(line) == 0)
+		free(line);
+	else
+	{
+		if (parse_no_so_textures(line, game, config) \
+		|| parse_we_ea_textures(line, game, config) \
+		|| parse_colors(line, game, config))
+		{
+			free(line);
+			close(fd);
+			return (1);
+		}
+		free(line);
+	}
 	return (0);
 }
 
@@ -101,20 +62,8 @@ int	parse_config(char *file, t_game *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (ft_strlen(line) == 0)
-			free(line);
-		else
-		{
-			if (parse_no_so_textures(line, game, &config) \
-|| parse_we_ea_textures(line, game, &config) \
-|| parse_colors(line, game, &config))
-			{
-				free(line);
-				close(fd);
-				return (1);
-			}
-			free(line);
-		}
+		if (parse_config_line(line, game, &config, fd))
+			return (1);
 		line = get_next_line(fd);
 	}
 	close(fd);
