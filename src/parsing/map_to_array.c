@@ -59,7 +59,7 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 		if (i >= MAX_MAP_ROWS)
 		{
 			free(line);
-			return (close(fd), ft_free_map(game->map),
+			return (close(fd), ft_free_map(&game->map),
 				perror("Error: Map exceeds maximum row limit!"));
 		}
 		if (!(*is_map_started) && is_valid_map_line(line))
@@ -69,7 +69,7 @@ void	read_map_lines(int fd, t_game *game, int *is_map_started)
 			if ((int)ft_strlen(line) > MAX_MAP_COLS)
 			{
 				free(line);
-				return (close(fd), ft_free_map(game->map),
+				return (close(fd), ft_free_map(&game->map),
 					perror("Error: Map exceeds maximum column limit!"));
 			}
 			game->map[i] = ft_strdup(line);
