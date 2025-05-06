@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:18:26 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 13:33:42 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:55:42 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define FOV 1.04719755f
 # define ROT_SPEED 0.015f
 # define MOV_SPEED 1.4f
+
 
 typedef struct s_player
 {

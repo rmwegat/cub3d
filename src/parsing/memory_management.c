@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:34:36 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/05 15:47:24 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:50:15 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void	ft_free_game(t_game *game)
 		return ;
 	ft_free_map(game->map);
 	ft_free_textures(&game->textures);
+	if (game->image)
+		mlx_delete_image(game->mlx, game->image);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
+	if (game->player)
+		free(game->player);
 	free(game);
 }
 

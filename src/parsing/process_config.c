@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 13:39:36 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:03:20 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,16 @@ int	parse_config(char *file, t_game *game)
 	{
 		if (ft_strlen(line) == 0)
 			free(line);
-		else
-			parse_textures_and_colors(line, game, &config);
+		else if (parse_textures_and_colors(line, game, &config))
+		{
+			free(line);
+			close(fd);
+			return (ft_free_game(game), 1);
+		}
 		free(line);
 	}
 	close(fd);
 	if (config.fc != 1 || config.cc != 1 || config.tc != 4)
-		return (perror("Error: Missing or invalid configuration!\n"), 1);
+		return (perror("Error: Missing or invalid configuration!\n"), ft_free_game(game), 1);
 	return (extract_map(file, game), 0);
 }
