@@ -6,7 +6,7 @@
 /*   By: rwegat <rwegat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:14:31 by rwegat            #+#    #+#             */
-/*   Updated: 2025/05/06 19:46:07 by rwegat           ###   ########.fr       */
+/*   Updated: 2025/05/06 20:00:32 by rwegat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ char	*skip_whitespace(char *str)
 int	parse_colors(char *line, t_game *game, t_config *config)
 {
 	if (!ft_strncmp(line, "F", 1) && ++(config->fc))
-		parse_color(skip_whitespace(line + 1), &game->floor_color);
+	{
+		if (parse_color(skip_whitespace(line + 1), &game->floor_color))
+			return (1);
+	}
 	else if (!ft_strncmp(line, "C", 1) && ++(config->cc))
-		parse_color(skip_whitespace(line + 1), &game->celing_color);
+	{
+		if (parse_color(skip_whitespace(line + 1), &game->celing_color))
+			return (1);
+	}
 	return (0);
 }
 
